@@ -2,7 +2,7 @@
 	session_start();
 ?>
 <section id="signup">
-	<form action = "signupp-process.php" method = "post">
+	<form action = "signup-process.php" method = "post">
 		<label for = "uname">Username(at least 6 char): </label><br/>
 		<input type = "text" name = "uname"    required = "required" pattern = "[A-z0-9]{6,}"/> <br/><br/>
 
