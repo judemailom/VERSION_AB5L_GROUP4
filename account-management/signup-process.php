@@ -19,7 +19,7 @@
 		//if the table is already populated look for a possible duplicate table element
 		while ($row = mysql_fetch_assoc($result)) {
 			if($uname===$row['user_uname']){
-					echo "<section id = \"signup\">";//echo signup-module
+					echo "<html> <body> <section id = \"signup\"></section></body></html>";//echo signup-module
 					echo "User credentials already exist. Try again.<br/><br/>";
 					echo "<a href = \"signup-module.php\">Sign Up</a>";
 					$flagy = 1;
@@ -47,7 +47,7 @@
 							$new_student = "insert into student values(
 								'{$sid['user_id']}',
 								'{$_SESSION['school']}',
-								'level'
+								'{$_SESSION['level']}'
 							)";
 							mysql_query($new_student, $con);
 						}
@@ -57,7 +57,7 @@
 							$sid =  mysql_fetch_assoc($result1);
 							$new_teacher = "insert into teacher values(
 								'{$sid['user_id']}',
-								'dept',
+								'{$_SESSION['dept']}',
 								'{$_SESSION['school']}'
 							)";
 							mysql_query($new_teacher, $con);
