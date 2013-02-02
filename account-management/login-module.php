@@ -11,5 +11,6 @@
 		<input type = "password" name = "pass" required = "required" pattern = "[A-z0-9]{6,}"/><br/><br/>
 		
 		<input type = "submit" value = "Log In" /> 
+		<a href = "signup-module.php">Create Account</a>
 	</form>
 </section>
