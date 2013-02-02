@@ -1,0 +1,76 @@
+<?php
+	if(isset($_SESSION['user']))
+		header('location: ?page=home');
+	if(isset($_SESSION['account_created'])){
+		include 'js/account_created.js';
+		unset($_SESSION['account_created']);
+	}
+	if(isset($_POST['login_submit'])){
+		require_once "includes/connect.php";
+		require_once "includes/use_db.php";
+
+		$query = "select * from user";	
+		$result = mysql_query($query, $con);
+		
+		$uname = $_POST['uname'];
+		$pass = md5($_POST['pass']);
+		
+		while($row = mysql_fetch_assoc($result)){
+			if($uname===$row['user_uname'] && $pass===$row['user_password']){
+				$_SESSION['user'] = htmlentities($uname);
+				header("Location: ?page=home");
+			}
+		}
+		include 'js/invalid_login.js';
+		require_once "includes/close.php";
+	}
+?>
+<div id="invalid_login" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="invalid_login" aria-hidden="true">	
+	<div class="modal-header">
+		<h3>Invalid username or password.</h3>
+	</div>
+	<div class="modal-body">
+		Please fill in with the correct username and password.
+	</div>
+	<div class="modal-header">
+		<a href="#" class="btn btn-primary" onclick="okClicked();">OK</a>
+	</div>
+</div>
+
+<div id="account_created" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="account_created" aria-hidden="true">
+	<div class="modal-header">
+		<h3>You have successfully registered to iLearn!</h3>
+	</div>
+	<div class="modal-footer">
+		You can use your account to chu chu chu about about about about about about about about
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn btn-primary" onclick="okClicked();">Log in to iLearn</a>
+	</div>
+</div>
+
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="span4">
+				<div id="login">
+					<div id="row-fluid">
+						<form id="login" method="post" action="">
+							<table id="login">
+								<tr><th>Login</td></tr>
+								<tr><td><input type="text" class="login_text" placeholder="Username" name = "uname" required = "required" pattern = "[A-z0-9]{6,}" /></td></tr>
+								<tr><td><input type="password" class="login_text" placeholder="Password" name = "pass" required = "required" pattern = "[A-z0-9]{6,}"/></td></tr>
+								<tr><td><input type="submit" name="login_submit" value="Login" class="button" /></td></tr>
+								<tr><td><a href="">Forgot password? Contact us</a></td></tr>
+								<tr><td><a href="?page=signup">No iLearn account? Sign up now!</a></td></tr>
+							</table>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="span8">
+				Carousel here. Si Sefora na bahala. :D
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	$_SESSION = $_POST;
+//	$_SESSION = $_POST;
 	require_once "connect_db/connect.php";
 	require_once "connect_db/use_db.php";
 	
@@ -10,11 +10,11 @@
 	$result = mysql_query($query, $con);
 	
 	//save username
-	$uname = $_SESSION['uname'];
+	$uname = $_POST['uname'];
 	
 	//concatenate fullname & save password as md5
-	$fname = $_SESSION['fname'].' '.$_SESSION['lname'];
-	$pass = md5($_SESSION['pass1']);
+	$fname = $_POST['fname'].' '.$_POST['lname'];
+	$pass = md5($_POST['pass1']);
 	
 		//if the table is already populated look for a possible duplicate table element
 		while ($row = mysql_fetch_assoc($result)) {
@@ -32,7 +32,7 @@
 						'{$uname}',
 						'{$pass}',
 						'{$fname}', 
-						'{$_SESSION['type']}'
+						'{$_POST['type']}'
 					)";
 					$result1 = mysql_query($new_user, $con);
 					
@@ -40,25 +40,25 @@
 						echo "Could not successfully run query {$new_student} from DB: " . mysql_error();
 						exit;
 					}else{
-						if('Student'===$_SESSION['type']){
+						if('Student'===$_POST['type']){
 							$query1 = "select * from user where user_uname ='{$uname}'";
 							$result1 = mysql_query($query1, $con);
 							$sid =  mysql_fetch_assoc($result1);
 							$new_student = "insert into student values(
 								'{$sid['user_id']}',
-								'{$_SESSION['school']}',
-								'{$_SESSION['level']}'
+								'{$_POST['school']}',
+								'{$_POST['level']}'
 							)";
 							mysql_query($new_student, $con);
 						}
-						else if('Teacher'===$_SESSION['type']){
+						else if('Teacher'===$_POST['type']){
 							$query1 = "select * from user where user_uname ='{$uname}'";
 							$result1 = mysql_query($query1, $con);
 							$sid =  mysql_fetch_assoc($result1);
 							$new_teacher = "insert into teacher values(
 								'{$sid['user_id']}',
-								'{$_SESSION['dept']}',
-								'{$_SESSION['school']}'
+								'{$_POST['dept']}',
+								'{$_POST['school']}'
 							)";
 							mysql_query($new_teacher, $con);
 						}

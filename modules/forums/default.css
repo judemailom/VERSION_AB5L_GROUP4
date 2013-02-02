@@ -1,0 +1,20 @@
+div{
+ 	border: 1px solid #000;
+ }
+div#forums{
+	margin-top: 20px;
+	font-family: Comfortaa;
+}
+div#forums div.containerDiv{
+	background-color: #F5F5F5;
+	padding: 20px;
+}
+div#forums p.title_header{
+	font-weight: bold;
+	font-size: 18px;
+}
+div#forums div.element{
+	border-bottom: 1px solid #323232;
+	width: 100%;
+	padding: 10px;
+}

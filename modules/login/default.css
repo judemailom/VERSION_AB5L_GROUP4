@@ -1,0 +1,36 @@
+div#login{
+ 	margin: 100px;
+	font-family: comfortaa;
+}
+div#login table#login td{
+/*   	border: 1px solid #000;
+ */ 	text-align: left;
+	height: 20px;
+	padding: 1px;
+}
+div#login table#login{
+/*    	border: 1px solid #000;
+ */	padding: 0px;
+	border-collapse: collapse;
+	width: 300px;
+}
+div#login input[type="text"], div#login input[type="password"]{
+	background-color: #E3E3E3;
+	border: 0px;
+	outline: 0px;
+	padding: 10px;
+	font-family: inherit;
+	color: #323232;
+	width: 80%;
+	font-size: 15px;
+	margin: 5px;
+}
+div#login a{
+	color: #323232;
+}
+div#login table#login th{
+	padding: 10px;
+	font-weight: bold;
+	font-size: 25px;
+ 	text-align: left;
+}

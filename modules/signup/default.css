@@ -1,0 +1,53 @@
+div#signup{
+ 	margin: 50px;
+	font-family: comfortaa;
+}
+div#signup table#signup td{
+/*    	border: 1px solid #000;
+ */  text-align: left;
+	height: 20px;
+	padding: 1px;
+}
+div#signup table#signup{
+/*    	border: 1px solid #000;
+ */	padding: 0px;
+	border-collapse: collapse;
+	width: 300px;
+}
+div#signup input[type="text"], div#signup input[type="password"], div#signup select{
+	background-color: #E3E3E3;
+	border: 0px;
+	outline: 0px;
+	padding: 10px;
+	font-family: inherit;
+	color: #323232;
+	width: 80%;
+	font-size: 15px;
+	margin: 5px;
+}
+div#signup a{
+	color: #323232;
+}
+div#signup table#signup th{
+	padding: 10px;
+	font-weight: bold;
+	font-size: 25px;
+ 	text-align: left;
+}
+div#signup table#signup select{
+	font-size: 15px;
+	background-color: #E3E3E3;
+	outline: 0px;
+	border: 0px;
+	height: 40px;
+	width: 80%;
+	-webkit-appearance: button;
+	font-family: comfortaa;
+	color: #757575;
+	padding: 5px;
+}
+div#signup input[type="radio"], div#signup label{
+	cursor: hand;
+	display: inline-block;
+	margin: 2px;
+}

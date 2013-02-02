@@ -36,11 +36,3 @@
 		<input type = "submit" value = "Register"/>
 	</form>
 </section>
-<script type='text/javascript'>
-	function enableTextBox(getid,getid2){
-		document.getElementById(getid).disabled = false;
-		document.getElementById(getid).required = "required";
-		document.getElementById(getid2).value = "";
-		document.getElementById(getid2).disabled = true;
-	}
-</script>
