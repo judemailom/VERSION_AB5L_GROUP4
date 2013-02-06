@@ -15,17 +15,22 @@
 <html>
   <head>
     <title>iLearn</title>
+    <!-- Bootstrap -->
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet" media="screen">
-	<script src="js/jquery.min.js"></script>
     <link href="bootstrap/css/bootstrap.responsive.css" rel="stylesheet" media="screen">
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-
-	<link rel="stylesheet" type="css/text" href="<?php echo 'modules/'.((!isset($_GET['page']))?'index':$_GET['page']).'/default.css';?>"/>
+	<!--CSS-->
     <link href="css/default.css" rel="stylesheet">
+	<link rel="stylesheet" type="css/text" href="<?php echo 'modules/'.((!isset($_GET['page']))?'index':$_GET['page']).'/default.css';?>"/>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+	<script src="js/modal.js"></script>
+	<script src="http://static.scripting.com/github/bootstrap2/js/jquery.js"></script>
+	<script src="http://static.scripting.com/github/bootstrap2/js/bootstrap-transition.js"></script>
+	<script src="http://static.scripting.com/github/bootstrap2/js/bootstrap-modal.js"></script>
+
 	
   </head>
    <body>    
-
 		<?php 
 			if(isset($_GET['page'])){
 		?>	

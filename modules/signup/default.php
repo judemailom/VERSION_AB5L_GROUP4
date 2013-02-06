@@ -94,7 +94,13 @@
 							<tr><td class="body" colspan="2"><input type="password" class="signup_text" placeholder="Confirm Password" name = "pass2"  pattern = "[A-z0-9]{6,}" required = "required" /></td></tr>
 							<tr><td class="body" colspan="2"><select id="select_schools" name="school">
 								<option>Select School</option>
-								<option>select schools from database;</option>
+								<?php
+									include 'includes/query.php';
+									$schools = performQuery('select school_name from school;');
+									for($i=0;$i<sizeof($schools);$i++){ ?>
+										<option><?php echo $schools[$i]['school_name']; ?></option>
+								<?php	}
+								?>
 							</select></td></tr>
 							<tr><td class="body" colspan="2" colspan="2"><a href="" style="font-size: 14px;">School not yet registered? Contact us.</a></td></tr>
 							<tr>

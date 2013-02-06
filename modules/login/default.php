@@ -21,7 +21,7 @@
 				header("Location: ?page=home");
 			}
 		}
-		include 'js/invalid_login.js';
+		include_once 'js/invalid_login.js';
 		require_once "includes/close.php";
 	}
 ?>
@@ -55,7 +55,7 @@
 			<div class="span4">
 				<div id="login">
 					<div id="row-fluid">
-						<form id="login" method="post" action="">
+						<form id="login" method="post" action="#">
 							<table id="login">
 								<tr><th>Login</td></tr>
 								<tr><td><input type="text" class="login_text" placeholder="Username" name = "uname" required = "required" pattern = "[A-z0-9]{6,}" /></td></tr>

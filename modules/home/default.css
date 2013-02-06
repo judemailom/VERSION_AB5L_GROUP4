@@ -1,0 +1,27 @@
+div{
+/*  	border: 1px solid #000; 
+ */	font-family: comfortaa;
+ }
+div.header{
+	font-weight: bold;
+	padding: 10px;
+	font-size: 18px;
+}
+div.announcement_details{
+	padding: 0px;
+	font-size: 12px;
+	text-align: right;
+}
+div.content{
+	padding: 10px;
+}
+/* div#post_button{
+	padding: 0px;
+	width: 20%;
+} */
+input[type='submit']{
+	margin: 0px;
+}
+form#announcement{
+	margin: 0px;
+}
