@@ -9,10 +9,6 @@
 		header('location: ?page=signup');
 	if(isset($_POST['login']))
 		header('location: ?page=login');
-	if(isset($_POST['editAnnounceForm'])){
-
-			header('Location: ?page=edit_announcement.php');
-		}
 ?>
 	
 <!DOCTYPE html>
