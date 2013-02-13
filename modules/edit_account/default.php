@@ -44,7 +44,6 @@
 			$_SESSION['user'] = $uname;
 			}
 	}
-	require_once "includes/query.php";	
 	$query = "select * from user where user_uname = '{$_SESSION['user']}'";	
 	$result = mysql_query($query, $con);
 	$sid =  performQuery($query);//mysql_fetch_assoc($result);

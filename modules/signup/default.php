@@ -95,7 +95,6 @@
 							<tr><td class="body" colspan="2"><select id="select_schools" name="school">
 								<option>Select School</option>
 								<?php
-									include 'includes/query.php';
 									$schools = performQuery('select school_name from school;');
 									for($i=0;$i<sizeof($schools);$i++){ ?>
 										<option><?php echo $schools[$i]['school_name']; ?></option>

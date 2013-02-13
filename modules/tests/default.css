@@ -1,0 +1,12 @@
+div{
+	font-family: comfortaa;
+/*  	border: 1px solid #000;
+ */}
+input[type='submit'].action{
+	font-size: 10px;
+	margin: 0px;
+	padding: 2px 20px;
+}
+div#test td, div#test th{
+	text-align: center;
+}

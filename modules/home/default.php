@@ -1,5 +1,4 @@
 <?php
-	require_once "includes/query.php";
 	
 //	echo '<br />';
 	$query =  'select user_type from user where user_uname = "'.$_SESSION['user'].'";';
@@ -29,13 +28,15 @@
 	?>
 	<div class="row-fluid">
 		<div class="span12">
-			<?php for($i=0;$i<sizeof($announcements);$i++){
+			<?php 
+				for($i=0;$i<sizeof($announcements);$i++){
 			?>
 				<div class="row-fluid">
 					<div class="span10">
 						<div class="announcement">
 							<div class="header">
-								<?php echo $announcements[$i]['announcement_title']; ?>
+								<?php echo $announcements[$i]['announcement_title']; 
+										?>
 							</div>
 							<div class="announcement_details">
 								posted by: 
