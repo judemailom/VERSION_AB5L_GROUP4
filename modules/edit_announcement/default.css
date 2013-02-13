@@ -1,0 +1,12 @@
+#editheader{
+	padding: 40px;
+	font-family: comfortaa;
+	font-weight: normal;
+}
+.righty{
+	float: right;
+	width: 150px;
+}
+.edit_announcement_text{
+	width: 500px;
+}

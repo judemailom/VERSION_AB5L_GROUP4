@@ -11,14 +11,20 @@
 
 		$query = "select * from user";	
 		$result = mysql_query($query, $con);
-		
 		$uname = $_POST['uname'];
 		$pass = md5($_POST['pass']);
 		
 		while($row = mysql_fetch_assoc($result)){
 			if($uname===$row['user_uname'] && $pass===$row['user_password']){
+				
 				$_SESSION['user'] = htmlentities($uname);
-				header("Location: ?page=home");
+					if($row['user_type'] == 'Teacher'){
+
+						header("Location: ?page=add_announcement");
+					}
+					else{
+						header("Location: ?page=home");
+					}
 			}
 		}
 		include_once 'js/invalid_login.js';

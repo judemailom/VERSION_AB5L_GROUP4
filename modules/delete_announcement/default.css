@@ -9,6 +9,9 @@ div.header{
 	padding-right:30px;
 	font-size: 25px;
 }
+.righty{
+	float: right;
+}
 div#no_announcements{
 	text-align: center;
 	font-weight: bold;
@@ -17,22 +20,12 @@ div#no_announcements{
 	padding-right:30px;
 	font-size: 55px;
 }
-.noannouncement{
-	font-weight: bolder;
-	font-size: 40px;
-	padding-top: 100px;
-	text-align: center;
-}
 div.announcement_details{
 	padding: 0px;
 	font-size: 12px;
 	padding-left:30px;
 	padding-right:30px;
 	margin-top:10px;
-}
-.lefty{
-	float: left;
-	width: 90px;
 }
 div.content{
 	padding: 10px;
@@ -41,14 +34,16 @@ div.content{
 	padding: 0px;
 	width: 20%;
 } */
+#deletesure{
+	padding: 40px;
+	font-family: comfortaa;
+	font-weight: normal;
+}
 input[type='submit']{
 	margin: 0px;
 }
 form#announcement{
 	margin: 0px;
-}
-form.left{
-	float: left;
 }
 div.announce{
 	padding: 50px;

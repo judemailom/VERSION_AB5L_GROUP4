@@ -37,6 +37,15 @@ a:hover{
 	color: #ededed;
 	text-decoration: none;
 }
+.createlink{
+	text-align: left;
+	font-family: comfortaa;
+	font-size: 19px;
+	font-weight: bold;
+	text-decoration: none;	
+	padding-left: 70px;
+	color: #515151;
+}
 table td, table td{
 	text-align: center;
 	padding: 0px 50px 0px 50px;
@@ -86,4 +95,5 @@ div.user_actions:hover{
 }
 div#announcements{
 	margin-top: 20px;
+	margin-left: 20px;
 }
