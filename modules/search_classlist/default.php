@@ -10,10 +10,9 @@
 					<td class="body" colspan="2"><select id="select_classlist" name="classlist">
 								<option>Select Classlist</option>
 								<?php
-									include 'includes/query.php';
-									$classlists = performQuery('select clname from classlist;');
+									$classlists = performQuery('select classlist_name from classlist;');
 									for($i=0;$i<sizeof($classlists);$i++){ ?>
-										<option><?php echo $classlists[$i]['clname']; ?></option>
+										<option><?php echo $classlists[$i]['classlist_name']; ?></option>
 								<?php	}
 								?>
 						</select></td>
@@ -38,11 +37,11 @@
 							//var_dump($query);
 						for($i=0;$i<sizeof($query);$i++){
 							
-							$query2="SELECT memberid FROM classlist_member WHERE memberid='{$query[$i]['user_id']}' AND id=(SELECT id from classlist where clname='{$_POST['classlist']}')";
+							$query2="SELECT classlist_user_id FROM classlist_members WHERE classlist_user_id='{$query[$i]['user_id']}' AND classlist_id=(SELECT classlist_id from classlist where classlist_name='{$_POST['classlist']}')";
 							
 							$result2=mysql_query($query2,$con);
 							
-							$query2=performQuery("SELECT memberid FROM classlist_member WHERE memberid='{$query[$i]['user_id']}' AND id=(SELECT id from classlist where clname='{$_POST['classlist']}')");
+							$query2=performQuery("SELECT classlist_user_id FROM classlist_members WHERE classlist_user_id='{$query[$i]['user_id']}' AND classlist_id=(SELECT classlist_id from classlist where classlist_name='{$_POST['classlist']}')");
 							//var_dump($query2);
 							if(mysql_num_rows($result2)==0 && $i==sizeof($query)-1){
 								//var_dump(sizeof($query));
@@ -53,7 +52,7 @@
 								//var_dump($query[$i]['user_id']);
 								continue;
 							}else{
-								$array[]=$query2[0]['memberid'];
+								$array[]=$query2[0]['classlist_user_id'];
 							}
 						}
 						if($array!=null){

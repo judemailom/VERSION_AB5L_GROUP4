@@ -10,18 +10,20 @@
 					if(isset($_POST['clname_submit'])){
 						$flagy = 0;
 						$temp=$_POST['clname'];
-						$query="SELECT * FROM classlist WHERE clname='$temp'";
+						var_dump($temp);
+						$query="SELECT * FROM classlist WHERE classlist_name='$temp'";
 						$check=mysql_query($query, $con);
 						while ($row = mysql_fetch_assoc($check)) {
-							if($temp===$row['clname']){
+							if($temp===$row['classlist_name']){
 								$flagy = 1;
 							include 'js/uname_taken.js';
 							break;
 						}
 		}
 						if(!$flagy){
-							$insert = "INSERT INTO CLASSLIST (clname) VALUES ('{$temp}')";	
+							$insert = "INSERT INTO classlist (classlist_name) VALUES ($temp)";	
 							$result = mysql_query($insert, $con);
+							var_dump($result);
 							echo "Classlist successfully added";
 						}else{
 							echo "<tr><td class=body colspan=2>";

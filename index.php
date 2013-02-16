@@ -1,6 +1,5 @@
 <?php
-	//foreach(glob('includes/*') as $file)
-	//	include $file;
+	include 'includes/query.php';
 	session_start();
 //	session_destroy();
 
@@ -73,8 +72,10 @@
 							<a href="?page=forums">Forums</a>
 						</div>
 						<div class="span4">
-							<input type="text" id="search" placeholder="Search.." />
-							<i class="icon-search icon-white"></i>
+							<div class="input-append">
+								<input type="text" id="search" placeholder="Search.." class="span6" />
+								<button class="btn" type="button">Search</button>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -87,9 +88,15 @@
 				<div class="span12">
 					<div class="span2">
 						<div id="sidebar">
-							USERNAME<br/>
-							TYPE<br />
-							SCHOOL<br />
+							<?php echo $_SESSION['user']; ?><br/>
+							<?php 
+								$type = performQuery('SELECT user_type FROM user WHERE user_uname = "'.$_SESSION['user'].'";');
+								echo $type[0]['user_type'];
+							?><br />
+							<?php
+								$school = performQuery('SELECT '.$type[0]['user_type'].'_school_name FROM '.$type[0]['user_type'].' WHERE '.$type[0]['user_type'].'_id = (SELECT user_id FROM user WHERE user_uname = "'.$_SESSION['user'].'");');
+								echo $school[0]["".$type[0]['user_type']."_school_name"];
+							?><br />
 						</div>
 						<div class="row-fluid">
 							<div class="span12">
