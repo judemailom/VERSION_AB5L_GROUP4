@@ -7,7 +7,7 @@
 		$query1 = "select classlist_user_id from classlist_members where classlist_id=(SELECT classlist_id from classlist where classlist_name='{$classlist}')";
 		$query2 = performQuery("select classlist_user_id from classlist_members where classlist_id=(SELECT classlist_id from classlist where classlist_name='{$classlist}')");
 		$result = mysql_query($query1, $con);
-		echo "<form id=viewcl_members method=post action=''><table id=viewcl_members>";
+		echo "<form id=viewcl_members method=post action=''><table class='table table-striped' id=viewcl_members>";
 		if(mysql_num_rows($result)){
 			echo "<tr><th>{$classlist}</td></tr>";
 			$_SESSION['classlist']=$classlist;

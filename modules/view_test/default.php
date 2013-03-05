@@ -1,4 +1,6 @@
 <?php 
+	if(!isset($_SESSION['user']))
+		header('location: ?page=login');
 	// var_dump($_GET);
 	$test_id = $_GET['test_id'];
 	$test =  performQuery("SELECT * FROM TEST WHERE TEST_ID = $test_id");
@@ -62,6 +64,14 @@
 					echo $a[0]['test_choice_d'];
 					?>
 				</div>
+				<?php	if($_SESSION['user_type'] != 'Student'){	?>
+				<div class="row-fluid">
+					Answer: <?php 
+						$a = performQuery('SELECT test_correct_answer FROM question WHERE test_id = '.$test_id.' AND test_item_number = '.$i.';');
+					echo $a[0]['test_correct_answer'];
+					?>
+				</div>
+				<?php	}	?>
 		<?php
 		}
 		?>

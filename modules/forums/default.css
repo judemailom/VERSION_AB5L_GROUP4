@@ -1,20 +1,25 @@
 div{
- /* 	border: 1px solid #000;
-  */}
-div#forums{
-	margin-top: 20px;
-	font-family: Comfortaa;
+/*  	border: 1px solid #000;
+ */}
+div#add_forum div{
+	text-align: center;
 }
-div#forums div.containerDiv{
-	background-color: #F5F5F5;
-	padding: 20px;
+input[type='submit'].action{
+	font-size: 10px;
+	margin: 0px;
+	padding: 2px 20px;
 }
-div#forums p.title_header{
-	font-weight: bold;
-	font-size: 18px;
+tr#create{
+	line-height: 8px;
 }
-div#forums div.element{
-	border-bottom: 1px solid #323232;
-	width: 100%;
-	padding: 10px;
+td#create:hover{
+	background-color: #f5f6f7;
+	cursor: pointer;
+}
+td#create{
+	padding: 2px 0px 2px 5px;
+	background-color: #f2f2f2;
+}
+a#create{
+	color: #aaa;
 }

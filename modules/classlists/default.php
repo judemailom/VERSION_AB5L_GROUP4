@@ -1,4 +1,7 @@
-
+<?php
+	if(!isset($_SESSION['user']))
+		header('location: ?page=login');
+?>
 <div id="view_classlist">
 	<div class="row-fluid">
 		<div class="span4">

@@ -18,118 +18,140 @@
 	<script src="js/jquery.min.js"></script>
     <link href="bootstrap/css/bootstrap.responsive.css" rel="stylesheet" media="screen">
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-
 	<link rel="stylesheet" type="css/text" href="<?php echo 'modules/'.((!isset($_GET['page']))?'index':$_GET['page']).'/default.css';?>"/>
-    <link href="css/default.css" rel="stylesheet">
-	
+    <link href="css/default.css" rel="stylesheet">	
   </head>
    <body>    
 
 		<?php 
 			if(isset($_GET['page'])){
 		?>	
-			<div class="row-fluid">
-			</div>
-			<div class="row-fluid">
-				<div class="span12">
-				</div>
-			</div>
-			<div class="row-fluid">
-				<div class="span12">
-					<div class="span2">
-						<a href="<?php echo isset($_SESSION['user'])?'?page=home':'index.php'; ?> ">
-							<img src="img/logo_mini.png" id="logo_header" />
-						</a>
-					</div>
-					<div class="span9">
-						<table id="desc">
-							<tr><td>description description description description description description</td>
-							</tr>
-						</table>
-					</div>
-					<div class="span1" style="text-align: right;">
-						<img src="img/dots.png" id="dots" />
+			<div id="header">
+				<div class="row-fluid">
+					<div class="span12">
 					</div>
 				</div>
-			</div>
-		<?php	
-			}
-			if(isset($_SESSION['user'])){
-		?>	
-			<div id="menu">
 				<div class="row-fluid">
 					<div class="span12">
 						<div class="span2">
-							<a href="?page=home">Home</a>
+							<a href="<?php echo isset($_SESSION['user'])?'?page=home':'index.php'; ?> ">
+								<img src="img/logo_mini.png" id="logo_header" />
+							</a>
 						</div>
-						<div class="span2">
-							<a href="?page=tests">Tests</a>
+						<div class="span9">
+							<table id="desc">
+								<tr><td>I learn. You learn. We learn. Chos!</td>
+								</tr>
+							</table>
 						</div>
-						<div class="span2">
-							<a href="?page=classlists">Classlists</a>
-						</div>
-						<div class="span2">
-							<a href="?page=forums">Forums</a>
-						</div>
-						<div class="span4">
-							<div class="input-append">
-								<input type="text" id="search" placeholder="Search.." class="span6" />
-								<button class="btn" type="button">Search</button>
-							</div>
+						<div class="span1" style="text-align: right;">
+							<img src="img/dots.png" id="dots" />
 						</div>
 					</div>
 				</div>
+				<div class="row-fluid">
+					<div class="span12">
+					</div>
+				</div>
+			</div>
+			<div <?php echo isset($_SESSION['user'])?'id="content"':'class="main"'; ?>>
+				<?php	
+			}
+			if(isset($_SESSION['user'])){
+		?>	
+			<div class="navbar navbar-inverse">
+				 <div class="navbar-inner">
+					<a class="brand" href="#">Menu</a>
+			        <div class="container">
+			          <div class="nav-collapse">
+			            <ul class="nav">
+			              <li class="<?php echo $_GET['page']=='home'?'active':''; ?>">
+			                <a href="?page=home">Home</a>
+			              </li>
+			              <li class="<?php echo $_GET['page']=='tests'?'active':''; ?>">
+			                <a href="?page=tests">Tests</a>
+			              </li>
+			              <li class="<?php echo $_GET['page']=='view_classlist'?'active':''; ?>">
+			                <a href="?page=view_classlist">Classlists</a>
+			              </li>
+			              <li class="<?php echo $_GET['page']=='forums'?'active':''; ?>">
+			                <a href="?page=forums">Forums</a>
+			              </li>
+			            </ul>
+						<form class="navbar-search pull-left" action="">
+							<input type="text" class="search-query span2" placeholder="Search">
+	                    </form>
+						<ul class="nav pull-right">
+							<li><a href="#">@<?php echo $_SESSION['user']; ?></a></li>
+							<li class="divider-vertical"></li>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#demo">Account <b class="caret"></b></a>
+								<div id="demo" class="collapse in"> 
+									<ul class="dropdown-menu">
+										<li>User Type</a></li>
+										<li>School name</a></li>
+										<li>Level or department</a></li>
+										<li class="divider"></li>
+										<li><a href="#">Edit account</a></li>
+										<li><a href="#">Logout</a></li>
+									</ul>
+								</div>
+							</li>
+	                    </ul>
+			          </div>
+			        </div>
+			    </div>
 			</div>
 		<?php	}
-			if(isset($_SESSION['user'])){
-		?>
+			if(isset($_SESSION['user'])){	?>
 		<div class="container-fluid">
 			<div class="row-fluid">
 				<div class="span12">
-					<div class="span2">
-						<div id="sidebar">
-							<?php echo $_SESSION['user']; ?><br/>
-							<?php 
-								$type = performQuery('SELECT user_type FROM user WHERE user_uname = "'.$_SESSION['user'].'";');
-								echo $type[0]['user_type'];
-							?><br />
-							<?php
-								$school = performQuery('SELECT '.$type[0]['user_type'].'_school_name FROM '.$type[0]['user_type'].' WHERE '.$type[0]['user_type'].'_id = (SELECT user_id FROM user WHERE user_uname = "'.$_SESSION['user'].'");');
-								echo $school[0]["".$type[0]['user_type']."_school_name"];
-							?><br />
-						</div>
-						<div class="row-fluid">
-							<div class="span12">
-								<div class="user_actions">
-									<i class="icon-pencil icon-white"></i>&nbsp;&nbsp;<a href="?page=edit_account">Edit account</a>
-								</div>
-								<div class="user_actions">
-									<i class="icon-minus-sign icon-white"></i>&nbsp;&nbsp;<a href="?page=logout">Log out</a>
-								</div>
-							</div>
-						</div>
-					</div>
 			<?php } ?>
-					<div class="row-fluid">
-						<div class="<?php echo isset($_SESSION['user'])?'span10':'span12'; ?>" >
-							<?php
-								include 'modules/'.((!isset($_GET['page']))?'index':$_GET['page']).'/default.php'; ?>
+					<div >
+						<div class="row-fluid">
+							<?php if(isset($_SESSION['user'])){ ?>
+								<div class="span1">
+								</div>
+							<?php }	?>
+							<div class="<?php echo isset($_SESSION['user'])?'span10':'span12'; ?>" id="<?php echo isset($_SESSION['user'])?'content':'main'; ?>">
+								<?php	include 'modules/'.((!isset($_GET['page']))?'index':$_GET['page']).'/default.php'; ?>
+							</div>
+							<?php if(isset($_SESSION['user'])){ ?>
+								<div class="span1">
+								</div>
+							<?php }	?>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="navbar navbar-fixed-bottom">
-			<table style="margin: auto;">
-				<tr>
-					<td><a href="">About iLearn</a></td>
-					<td><a href="">Location</a></td>
-					<td><a href="">Developers</a></td>
-					<td><a href="">Contact Us</a></td>
-					<td><a href="">Link2</a></td>
-					<td><a href="">Link3</a></td>
-				</tr>
-			</table>
+		</div>
+		<div class="navbar navbar-inverse navbar-fixed-bottom">
+			<div class="navbar-inner">
+				<div class="container">
+					  <div class="nav-collapse">
+						<ul class="nav">
+							<li><a href="">About iLearn</a></li>
+						</ul>
+						<ul class="nav">
+							<li><a href="">Location</a></li>
+						</ul>
+						<ul class="nav">
+							<li><a href="">Developers</a></li>
+						</ul>
+						<ul class="nav">
+							<li><a href="">Contact Us</a></li>
+						</ul>
+						<ul class="nav">
+							<li><a href="">Link2</a></li>
+						</ul>
+						<ul class="nav">
+							<li><a href="">Link3</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
    </body>
 </html>

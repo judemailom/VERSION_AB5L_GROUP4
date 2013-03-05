@@ -1,0 +1,71 @@
+div{
+/*  	border: 1px solid #000; 
+ */	font-family: comfortaa;
+ }
+div.header{
+	font-weight: bold;
+	padding-top: 5px;
+	padding-left: 30px;
+	padding-right:30px;
+	font-size: 25px;
+}
+div#no_announcements{
+	text-align: center;
+	font-weight: bold;
+	padding-top: 5px;
+	padding-left: 30px;
+	padding-right:30px;
+	font-size: 55px;
+}
+.noannouncement{
+	font-weight: bolder;
+	font-size: 40px;
+	padding-top: 100px;
+	text-align: center;
+}
+div.announcement_details{
+	padding: 0px;
+	font-size: 12px;
+	padding-left:30px;
+	padding-right:30px;
+	margin-top:10px;
+}
+.lefty{
+	float: left;
+	width: 90px;
+}
+div.content{
+	padding: 10px;
+}
+/* div#post_button{
+	padding: 0px;
+	width: 20%;
+} */
+input[type='submit']{
+	margin: 0px;
+}
+form#announcement{
+	margin: 0px;
+}
+form.left{
+	float: left;
+}
+div.announce{
+	padding: 50px;
+}
+.#posted{
+	font-size: 25px;
+}
+#divContent{
+	padding-left:30px;
+	padding-right:30px;
+}
+#divContent p{
+	text-indent: 50px;
+	font-size: 25px;
+	font-family: comfortaa;
+	text-align: justify;
+}
+div.edit{
+	float:right;
+}

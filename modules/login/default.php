@@ -18,25 +18,16 @@
 		while($row = mysql_fetch_assoc($result)){
 			if($uname===$row['user_uname'] && $pass===$row['user_password']){
 				$_SESSION['user'] = htmlentities($uname);
+				$a = performQuery('SELECT * FROM user WHERE user_uname="'.$uname.'";');
+				$_SESSION['user_type'] = $a[0]['user_type'];	
+				$_SESSION['user_id'] = $a[0]['user_id'];	
 				header("Location: ?page=home");
 			}
 		}
-		include_once 'js/invalid_login.js';
+			$_SESSION['fail'] = 1;
 		require_once "includes/close.php";
 	}
 ?>
-<div id="invalid_login" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="invalid_login" aria-hidden="true">	
-	<div class="modal-header">
-		<h3>Invalid username or password.</h3>
-	</div>
-	<div class="modal-body">
-		Please fill in with the correct username and password.
-	</div>
-	<div class="modal-header">
-		<a href="#" class="btn btn-primary" onclick="okClicked();">OK</a>
-	</div>
-</div>
-
 <div id="account_created" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="account_created" aria-hidden="true">
 	<div class="modal-header">
 		<h3>You have successfully registered to iLearn!</h3>
@@ -58,6 +49,21 @@
 						<form id="login" method="post" action="#">
 							<table id="login">
 								<tr><th>Login</td></tr>
+								<?php if(isset($_SESSION['fail']) && $_SESSION['fail']==1){ 
+								?>
+								<tr><td>
+								<div class="alert alert-error">
+									<button type="button" class="close" data-dismiss="alert">&times;</button>
+									<strong>Sorry. </strong> Invalid username or password.
+								</div></td>
+								</tr>
+								<?php	
+									if($_SESSION['fail']>=0)
+										$_SESSION['fail']-=1;
+									else
+										unset($_SESSION['fail']);
+								}
+								?>
 								<tr><td><input type="text" class="login_text" placeholder="Username" name = "uname" required = "required" pattern = "[A-z0-9]{6,}" /></td></tr>
 								<tr><td><input type="password" class="login_text" placeholder="Password" name = "pass" required = "required" pattern = "[A-z0-9]{6,}"/></td></tr>
 								<tr><td><input type="submit" name="login_submit" value="Login" class="button" /></td></tr>

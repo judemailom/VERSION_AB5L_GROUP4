@@ -1,4 +1,7 @@
-
+<?php
+	if(!isset($_SESSION['user']))
+		header('location: ?page=login');
+?>
 <div id="add_classlist">
 	<div class="row-fluid">
 		<div class="span4">
@@ -43,21 +46,24 @@
 							
 							$query2=performQuery("SELECT classlist_user_id FROM classlist_members WHERE classlist_user_id='{$query[$i]['user_id']}' AND classlist_id=(SELECT classlist_id from classlist where classlist_name='{$_POST['classlist']}')");
 							//var_dump($query2);
-							if(mysql_num_rows($result2)==0 && $i==sizeof($query)-1){
+							if(mysql_num_rows($result2)==0 && $i==sizeof($query)-1 && !isset($array)){
 								//var_dump(sizeof($query));
 								echo "<tr><td>{$_POST['classlist']}</td></tr>";
 								echo "<tr><td>No match results found hihi</td></tr>";
-								$array[]=null;
-							}else if(mysql_num_rows($result2)==0){
+								//$array[]=null;
+								//var_dump($array);
+							}else if(mysql_num_rows($result2)==0 && isset($array)){
 								//var_dump($query[$i]['user_id']);
 								continue;
 							}else{
 								$array[]=$query2[0]['classlist_user_id'];
+								//var_dump($array);
 							}
 						}
-						if($array!=null){
+						if(isset($array)){
 							for($j=0;$j<sizeof($array);$j++){
 								$query3=performQuery("SELECT user_fname FROM user WHERE user_id='{$array[$j]}'");
+								//var_dump($query3);
 								$namearray[]=$query3[0]['user_fname'];
 							}
 							echo "<tr><th colspan=2>{$_POST['classlist']}</td></tr>";

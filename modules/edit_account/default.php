@@ -1,4 +1,6 @@
 <?php
+	if(!isset($_SESSION['user']))
+		header('location: ?page=login');
 	require_once "includes/connect.php";
 	require_once "includes/use_db.php";
 	

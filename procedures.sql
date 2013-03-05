@@ -39,3 +39,31 @@ BEGIN
 	SELECT * FROM test WHERE test_status = "FINISHED" AND test_id IN (SELECT test_id FROM test_classlist WHERE classlist_id IN (SELECT classlist_id FROM classlist_members WHERE classlist_user_id = _user_id));
 END $$
 DELIMITER ;
+
+DROP PROCEDURE IF EXISTS delete_test;
+DELIMITER $$
+CREATE PROCEDURE delete_test(_test_id INT(64))
+BEGIN
+	DELETE FROM question WHERE test_id=_test_id;
+	DELETE FROM test WHERE test_id=_test_id;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS delete_forum;
+DELIMITER $$
+CREATE PROCEDURE delete_forum(_forum_id INT(64))
+BEGIN
+	DELETE FROM forum WHERE forum_id=_forum_id;
+	DELETE FROM forum_members WHERE forum_id=_forum_id;
+	DELETE FROM forum_posts WHERE forum_id=_forum_id;
+END $$
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS add_comment;
+DELIMITER $$
+CREATE PROCEDURE add_comment(_post_id INT(64), _forum_id INT(64), _user_id INT(64), _date TIMESTAMP, _content TEXT)
+BEGIN
+	INSERT INTO forum_posts VALUES(_post_id, _forum_id, _user_id, _date, _content);
+	SELECT last_insert_id();
+END $$
+DELIMITER ;
