@@ -1,9 +1,9 @@
 <script type="text/javascript">
 $(document).ready(function() {
-     $('#invalid_login').modal('show');
+     $('#classlist_name_exists').modal('show');
 });
 function closeDialog () {
-		$('#invalid_login').modal('hide'); 
+		$('#classlist_name_exists').modal('hide'); 
 		};
 function okClicked(){
 		closeDialog();

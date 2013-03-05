@@ -1,6 +1,16 @@
-body{
-	background-color: #EDEDED;
+#content{
+	border-left: 2px solid #F9F9F9;
+	border-right: 2px solid #F9F9F9;
+	box-shadow: 3px 3px 5px #F9F9F9;
+	height: 100%;
 }
+#header{
+	background-color: #323232;
+/* 	border: 1px solid #000;
+ */}
+body{
+/*  	background-color: #EDEDED;
+ */ }
 input[type='submit']{
 	background-color: #323232;
 	border-radius: 13px;
@@ -24,10 +34,6 @@ img#logo{
 	font-size: 19px;
 	font-weight: bold;
 }
-.navbar{
-	background-color: #323232;
-
-}
 a{
 	font-family: comfortaa;
 	text-decoration: none;
@@ -36,12 +42,6 @@ a{
 a:hover{
 	color: #ededed;
 	text-decoration: none;
-}
-table td, table td{
-	text-align: center;
-	padding: 0px 50px 0px 50px;
-/* 	border: 1px solid #000;
- */	height: 100%;
 }
 img#dots{
 	height: 50px;
@@ -55,35 +55,6 @@ table#desc tr td{
 	height: 100%;
 	padding: 15px;
 	font-family: comfortaa;
-	font-weight: bold;
-	font-size: 18px;
-}
-div#menu{
-	background-color: #323232;
-	font-family: comfortaa;
-	color: #EDEDED;
-	padding: 20px 0px 0px 10px;
-	margin-top: 20px;
-}
-div#menu a{
-	font-size: 18px;
-}
-div#sidebar{
-	background-color: #323232;
-	color: #ededed;
-	font-family: comfortaa;
-	padding: 20px;
-	margin-top: 20px;
-}	
-div.user_actions{
-	padding: 20px;
-	color: #ededed;
-	font-family: comfortaa;
-	background-color: #444;
-}
-div.user_actions:hover{
-	background-color: #323232;
-}
-div#announcements{
-	margin-top: 20px;
+	font-size: 16px;
+	color: #FFF;
 }

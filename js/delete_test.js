@@ -1,9 +1,9 @@
 <script type="text/javascript">
 $(document).ready(function() {
-     $('#invalid_login').modal('show');
+     $('#delete_test').modal('show');
 });
 function closeDialog () {
-		$('#invalid_login').modal('hide'); 
+		$('#delete_test').modal('hide'); 
 		};
 function okClicked(){
 		closeDialog();

@@ -1,6 +1,6 @@
 <?php
 	function performQuery($query){
-		$link = new mysqli('localhost','root', '', 'iLearn') or die('cannot connect  to database server.');
+		$link = new mysqli('localhost','root', '', 'ilearn_db') or die('cannot connect  to database server.');
 		$_results = $link->query($query);
 		$link->close();
 
