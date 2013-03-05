@@ -84,19 +84,16 @@
 						<ul class="nav pull-right">
 							<li><a href="#">@<?php echo $_SESSION['user']; ?></a></li>
 							<li class="divider-vertical"></li>
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#demo">Account <b class="caret"></b></a>
-								<div id="demo" class="collapse in"> 
-									<ul class="dropdown-menu">
-										<li>User Type</a></li>
-										<li>School name</a></li>
-										<li>Level or department</a></li>
-										<li class="divider"></li>
-										<li><a href="#">Edit account</a></li>
-										<li><a href="#">Logout</a></li>
-									</ul>
-								</div>
-							</li>
+							<li id="fat-menu" class="dropdown">
+		                      <a href="#" id="account" role="button" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
+		                      <ul class="dropdown-menu" role="menu" aria-labelledby="account">
+		                        <li role="presentation"><a role="menuitem" tabindex="-1" href=""><?php echo $_SESSION['user']; ?></a></li>
+		                        <li role="presentation"><a role="menuitem" tabindex="-1" href=""><?php echo $_SESSION['user_type']; ?></a></li>
+		                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?page=edit_account">Edit account</a></li>
+		                        <li role="presentation" class="divider"></li>
+		                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?page=logout">Logout</a></li>
+		                      </ul>
+		                    </li>
 	                    </ul>
 			          </div>
 			        </div>
