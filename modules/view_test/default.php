@@ -6,7 +6,30 @@
 	$test =  performQuery("SELECT * FROM TEST WHERE TEST_ID = $test_id");
 	$classlists = performQuery('SELECT classlist_name FROM classlist WHERE classlist_id IN (SELECT classlist_id FROM test_classlist WHERE test_id = '.$test[0]['test_id'].');');
 	$author = performQuery('SELECT user_uname FROM user WHERE user_id = '.$test[0]['test_author_id'].';');
-	//var_dump($author);
+
+?>
+<?php 
+if(isset($_SESSION['success']) && $_SESSION['success']>=1){ ?>
+	<div class="alert alert-success">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	  <strong>Congratulations!</strong> Successfully <?php echo $_SESSION['mode']; ?> a test.
+	</div>
+<?php
+}
+else if(isset($_SESSION['success']) && $_SESSION['success']<0){ ?>
+	<div class="alert alert-error">
+	  <button type="button" class="close" data-dismiss="alert">&times;</button>
+	  <strong>Sorry!</strong> Something went wrong. Please try again. 
+	</div>
+<?php }
+if(isset($_SESSION['success'])){
+	if(($_SESSION['success']==1 || $_SESSION['success']<0)){
+		unset($_SESSION['success']);
+		unset($_SESSION['mode']);
+	}
+	else
+		$_SESSION['success']-=1;
+}
 ?>
 <div id="view_test">
 	<div class="container-fluid">
