@@ -1,13 +1,30 @@
 <!-- POST ANNOUNCEMENT -->
 <?php
-	if(!isset($_SESSION['user']))
-		header('location: ?page=login');
+	
 	require_once "includes/connect.php";
 	require_once "includes/use_db.php";
 
+	//show if adding is successful
+	if(isset($_SESSION['announcement_added'])){
+		require_once 'js/announcement_added.js';
+		unset($_SESSION['announcement_added']);
+	}
+	//show if deleting is successful
+	else if(isset($_SESSION['announcement_deleted'])){
+		require_once 'js/announcement_deleted.js';
+		unset($_SESSION['announcement_deleted']);
+	}
+	//show if editing is successful
+	else if(isset($_SESSION['announcement_edited'])){
+		require_once 'js/announcement_edited.js';
+		unset($_SESSION['announcement_edited']);
+	}
+
 	if(isset($_POST['post_announcement'])){
+		//unset($_SESSION['announcement_added']);
 		require_once "includes/query.php";	
 
+		//get user information
 		$query = "select * from user where user_uname = '{$_SESSION['user']}'";	
 		$result = mysql_query($query, $con);
 		$sid =  performQuery($query);//mysql_fetch_assoc($result);
@@ -19,7 +36,7 @@
 		$new_announcement = "insert into announcement (announcement_author,author_id,announcement_title,announcement_content) 
 						values(
 							'{$sid[0]['user_fname']}',
-							'{$sid[0]['user_id']}', 
+							'{$sid[0]['user_id']}',
 							'{$announcement_title}', 
 							'{$announcement_content}'
 						)";
@@ -31,8 +48,8 @@
 		}
 	
 		unset($_POST);
+		$_SESSION['announcement_added'] = true;
 		header("Location: ?page=add_announcement");	
-
 		include "includes/close.php";
 	}
 ?>
@@ -123,8 +140,9 @@
  									<div class="carousel-inner">
  									<?php
  										if($isEmpty == false){
- 											for($i=0;$i<sizeof($announcements);$i++){
-												if($i == 0){
+ 											$size= sizeof($announcements);
+ 											for($i=$size-1;$i>=0;$i--){
+												if($i == $size-1){
     												echo'<div class="active item">';
     											}
     											else{
@@ -159,10 +177,7 @@
 																<input type="hidden" id="announcement_title" name="announcement_title" <?php echo 'value="'.$announcements[$i]['announcement_title'].'"';?> />
 																<input type="hidden" id="announcement_content" name="announcement_content" <?php echo 'value="'.$announcements[$i]['announcement_content'].'"';?> />
 																<?php
-																	if($announcements[$i]['author_id'] != $user_id){
-																		echo '<input disabled="true" type="submit" value="Edit" class="button edit"/>';
-																	}
-																	else 
+																	if($announcements[$i]['author_id'] == $user_id)
 																		echo '<input type="submit" value="Edit" class="button edit"/>';
 																?>
 															</form>
@@ -171,10 +186,7 @@
 																<input type="hidden" id="announcement_title" name="announcement_title" <?php echo 'value="'.$announcements[$i]['announcement_title'].'"';?> />
 																<input type="hidden" id="announcement_content" name="announcement_content" <?php echo 'value="'.$announcements[$i]['announcement_content'].'"';?> />
 																<?php
-																	if($announcements[$i]['author_id'] != $user_id){
-																		echo '<input disabled="true" type="submit" value="Delete" class="button edit"/>';
-																	}
-																	else 
+																	if($announcements[$i]['author_id'] == $user_id)
 																		echo '<input type="submit" value="Delete" class="button edit"/>';
 																?>
 															</form>
@@ -203,4 +215,35 @@
 				</div>
 			</div>
 		</div>
+</div>
+
+<!-- Successful add modal -->
+<div id="announcement_added" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="announcement_added" aria-hidden="true">
+	<div class="modal-header">
+		<h3>You have successfully posted an announcement!</h3>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn btn-primary" onclick="okClicked();">Continue</a>
+	</div>
+</div>
+
+<!-- Successful delete modal -->
+<div id="announcement_deleted" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="announcement_deleted" aria-hidden="true">
+	<div class="modal-header">
+		<h3>You have successfully deleted an announcement!</h3>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn btn-primary" onclick="okClicked();">Continue</a>
+	</div>
+</div>
+
+
+<!-- Successful edit modal -->
+<div id="announcement_edited" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="announcement_edited" aria-hidden="true">
+	<div class="modal-header">
+		<h3>You have successfully edited this announcement!</h3>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn btn-primary" onclick="okClicked();">Continue</a>
+	</div>
 </div>
