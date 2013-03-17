@@ -45,10 +45,7 @@
 				$_SESSION['status']='failed';
 			//var_dump($_SESSION);
 			//var_dump($_POST);
-			if(isset($_GET['forum_id']) && $_GET['forum_id']==$_SESSION['forum_id'])
 				header('location: ?page=forums');
-			else
-				header('location: #');
 	}
 
 	if(isset($_POST['leave_forum'])){
