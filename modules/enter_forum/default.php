@@ -15,13 +15,16 @@
 	if(isset($_GET['comment_id'])){
 		$delete = performQuery('DELETE FROM forum_posts WHERE forum_posts_id = '.$_GET['comment_id'].' AND forum_id='.$_GET['forum_id'].';');
 		if($delete){
-			$_SESSION['success']=4;
-			$_SESSION['mode'] = 'deleted';
+			$_SESSION['counter'] = 2;
+			$_SESSION['status']='success';
+			$_SESSION['mode']='deleted';
+			$_SESSION['item']='comment';
 		}
 		else
-			$_SESSION['success']=0;
+			$_SESSION['status']='failed';
 		header('location: ?page=enter_forum&&forum_id='.$_GET['forum_id'].'');
 	}
+
 	$content = performQuery('SELECT * FROM forum_posts WHERE forum_id='.$_SESSION['forum_id'].' ORDER BY forum_posts_id;');
 	$forum =  performQuery('SELECT * FROM forum WHERE forum_id='.$_SESSION['forum_id'].';');
 	
@@ -29,29 +32,32 @@
 	<div class="row-fluid">
 		<div class="span9" id="div_forums">
 			<div class="well">
+					<?php if($_SESSION['user_id'] != $forum[0]['forum_author_id']){ ?>
+						<form action="" method="POST" onsubmit="return confirm_leave();">
+							<input type="submit"  title="Leave group" name="leave_forum" class="leave_forum" value="&times;"/>
+						</form>
+					<?php } ?>
 				<h4><?php echo $forum[0]['forum_name']; ?></h4>
 				<h6><?php echo $forum[0]['forum_description']; ?></h6>
 			</div>
 			
 			<?php 
-			if(isset($_SESSION['success']) && $_SESSION['success']>=1 && $_SESSION['mode']=='deleted'){ ?>
-				<div class="alert alert-success">
-				  <button type="button" class="close" data-dismiss="alert">&times;</button>
-				  <strong>Congratulations!</strong> Successfully deleted the comment.
-				</div>
-			<?php
-			}
-			else if(isset($_SESSION['success']) && $_SESSION['success']<0){ ?>
-				<div class="alert alert-error">
-				  <button type="button" class="close" data-dismiss="alert">&times;</button>
-				  <strong>Sorry!</strong> Something went wrong. Please try again. 
-				</div>
-			<?php }
-			if(isset($_SESSION['success'])){
-				if(($_SESSION['success']==1 || $_SESSION['success']<0))
-					unset($_SESSION['success']);
+			if(isset($_SESSION['counter'])){
+				if( $_SESSION['counter']<2 && $_SESSION['counter']>=0){
+					if(isset($_SESSION['status']) && $_SESSION['item'] == 'comment'){
+						$status=$_SESSION["status"];
+						$mode=$_SESSION["mode"];
+						$item=$_SESSION["item"];
+						include 'includes/alert.php';
+						unset($_SESSION['status']);
+						unset($_SESSION['item']);
+						unset($_SESSION['mode']);
+					}
+				}
+				else if($_SESSION['counter'] == 2)
+					$_SESSION['counter'] -=1;
 				else
-					$_SESSION['success']-=1;
+					unset($_SESSION['counter']);
 			}
 			?>
 			<table class="table table-striped">
@@ -99,5 +105,8 @@
 <script>
 	function confirm_del(){
 		return confirm('Are you sure you want to delete this comment?');
+	};
+	function confirm_leave(){
+		return confirm('Are you sure you want to leave this forum?');		
 	};
 </script>

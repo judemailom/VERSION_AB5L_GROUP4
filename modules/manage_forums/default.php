@@ -56,6 +56,15 @@
 							<td><?php echo $admin_forums[$i]['forum_description']; ?></td>
 							<td><?php echo $author[0]['user_fname'].' (@'.$author[0]['user_uname'].')';?></td>
 
+							<?php if(isset($author_of->num_rows) && isset($member_of->num_rows)){ ?>
+								<td>
+									<form action="" method="post">
+										<input type="submit" value="" name="join_forum" class="action join"/>
+										<input type="hidden" value="<?php echo $admin_forums[$i]['forum_id']; ?>" name="forum_id" class="action"/>
+									</form>
+								</td>
+							<?php } ?>
+
 						<?php if(!isset($author_of->num_rows) || !isset($member_of->num_rows)){ ?>
 							<td>
 								<form action="" method="post">
@@ -78,14 +87,11 @@
 								</form>
 							</td>
 							<?php }
-							if(isset($author_of->num_rows) && isset($member_of->num_rows)){ ?>
-							<td>
-								<form action="" method="post">
-									<input type="submit" value="" name="join_forum" class="action join"/>
-									<input type="hidden" value="<?php echo $admin_forums[$i]['forum_id']; ?>" name="forum_id" class="action"/>
-								</form>
-							</td>
+							else { ?> 
+								<td>&minus;</td>
+								<td>&minus;</td>
 							<?php } ?>
+							
 						</tr>
 					<?php	} 
 					}else{ ?>

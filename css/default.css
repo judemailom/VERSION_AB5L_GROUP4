@@ -22,6 +22,8 @@ body{
 	left: 0;
 	right: 0;
 	padding: 0px;
+	position: fixed;
+	z-index: 10;
 /* 	border: 1px solid #000;
  */}
 .below-header{
@@ -187,6 +189,17 @@ a.dropdown-element:hover{
 	right: 0px;
 	bottom: 0px;
 	top: 0px; 	
+	position: fixed;
+	padding-top: 100px;
+	float: right;
+	overflow:auto;
+	scrollbar-face-color: #000000;
+	scrollbar-shadow-color: #2D2C4D;
+	scrollbar-highlight-color:#7D7E94;
+	scrollbar-3dlight-color: #7D7E94;
+	scrollbar-darkshadow-color: #2D2C4D;
+	scrollbar-track-color: #7D7E94;
+	scrollbar-arrow-color: #C1C1D1;
 }
 tr#create{
 	line-height: 8px;

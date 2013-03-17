@@ -1,4 +1,6 @@
 <?php
+	
+
 	if(!isset($_SESSION['user']))
 		header('location: ?page=login');
 	$member_id = performQuery('SELECT forum_user_id FROM forum_members WHERE forum_id='.$_SESSION['forum_id'].';');
@@ -13,12 +15,14 @@
 				$user_id = performQuery('SELECT user_id FROM user WHERE user_fname = "'.$_POST['students_to_be_added'][$i].'";');
 				$success = performQuery('INSERT INTO forum_members VALUES('.$_SESSION['forum_id'].', '.$user_id[0]['user_id'].');');
 				if($success){
-					$_SESSION['success']=4;
+					$_SESSION['counter'] = 2;
+					$_SESSION['status']='success';
 					$_SESSION['mode']='added';
+					$_SESSION['item']='member';
 				}
 				else
-					$_SESSION['success']=0;
-				header('location: ?page=edit_forum_members');
+					$_SESSION['status']='failed';
+				header('location: #');
 			}
 			unset($_POST['add_selected_students']);
 		}
@@ -26,8 +30,10 @@
 	if(isset($_POST['remove_member'])){
 		$a=performQuery('DELETE FROM forum_members WHERE forum_id='.$_SESSION['forum_id'].' AND forum_user_id='.$_POST['member_id'].';');
 		if($a){
-			$_SESSION['success']=2;
-			$_SESSION['mode']='deleted';
+			$_SESSION['counter'] = 2;
+			$_SESSION['status']='success';
+			$_SESSION['mode']='removed';
+			$_SESSION['item']='member';
 		}
 		else
 			$_SESSION['success']=0;
@@ -128,28 +134,29 @@
 		<div class="row-fluid">
 			<div class="span9">
 				<?php 
-					if(isset($_SESSION['success']) && $_SESSION['success']>=1){ ?>
-						<div class="alert alert-success">
-						  <button type="button" class="close" data-dismiss="alert">&times;</button>
-						  <strong>Congratulations!</strong> Successfully <?php echo $_SESSION['mode']; ?> the member(s).
-						</div>
-					<?php
+			if(isset($_SESSION['counter'])){
+				if( $_SESSION['counter']<2 && $_SESSION['counter']>=0){
+					if(isset($_SESSION['status']) && $_SESSION['item'] == 'member'){
+						$status=$_SESSION["status"];
+						$mode=$_SESSION["mode"];
+						$item=$_SESSION["item"];
+						include 'includes/alert.php';
+						unset($_SESSION['status']);
+						unset($_SESSION['item']);
+						unset($_SESSION['mode']);
 					}
-					else if(isset($_SESSION['success']) && $_SESSION['success']<0){ ?>
-						<div class="alert alert-error">
-						  <button type="button" class="close" data-dismiss="alert">&times;</button>
-						  <strong>Sorry!</strong> Something went wrong. Please try again. 
-						</div>
-					<?php	}
-					if(isset($_SESSION['success'])){
-						if(($_SESSION['success']==1 || $_SESSION['success']<0)){
-							unset($_SESSION['success']);
-							unset($_SESSION['mode']);
-						}
-						else
-							$_SESSION['success']-=1;
-					}
-					?>
+				}
+				else if($_SESSION['counter'] == 2)
+					$_SESSION['counter'] -=1;
+				else
+					unset($_SESSION['counter']);
+			}
+			?>
+			<div class="well">
+				<?php $forum =  performQuery('SELECT * FROM forum WHERE forum_id='.$_SESSION['forum_id'].';'); ?>
+				<h4><?php echo $forum[0]['forum_name']; ?></h4>
+				<h6><?php echo $forum[0]['forum_description']; ?></h6>
+			</div>
 			<div class="well">
 				<table class="table table-striped">
 					<tr>

@@ -2,7 +2,7 @@
 	if(!isset($_SESSION['user']))
 		header('location: ?page=login');
 ?>
-<div class="well">
+<div id="add_user">
 	<div class="row-fluid">
 		<div class="span9">
 			<form id="add_user" method="post" action="">

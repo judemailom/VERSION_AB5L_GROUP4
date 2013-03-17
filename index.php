@@ -17,20 +17,52 @@
 		header('location: ?page=edit_forum_members');
 	}
 	if(isset($_POST['create_forum'])){
-			$a = performQuery('INSERT INTO forum VALUES ("", "'.$_POST['forum_name'].'", "'.$_POST['forum_desc'].'", '.$USER[0]['user_id'].');');
+			$a = performQuery('INSERT INTO forum VALUES ("", "'.$_POST['forum_name'].'", "'.$_POST['forum_desc'].'", '.$USER[0]['user_id'].', "'.$_POST['forum_key'].'");');
 			if($a){
-				$_SESSION['success']=4;
-				$_SESSION['mode'] = 'created';
+				$_SESSION['counter'] = 2;
+				$_SESSION['status']='success';
+				$_SESSION['mode']='created';
+				$_SESSION['item']='forum';
 			}
 			else
-				$_SESSION['success']=0;
+				$_SESSION['status']='failed';
 			//var_dump($_SESSION);
 			header('location: #');
 	}
 	if(isset($_POST['enter_forum'])){
 		$_SESSION['forum_id'] = $_POST['forum_id'];
 		header('location: ?page=enter_forum');
+	}
+	if(isset($_POST['delete_forum'])){
+		$a = performQuery('CALL delete_forum('.$_POST['forum_id'].')');
+		if($a){
+				$_SESSION['counter'] = 2;
+				$_SESSION['status']='success';
+				$_SESSION['mode']='deleted';
+				$_SESSION['item']='forum';
+			}
+			else
+				$_SESSION['status']='failed';
+			//var_dump($_SESSION);
+			//var_dump($_POST);
+			if(isset($_GET['forum_id']) && $_GET['forum_id']==$_SESSION['forum_id'])
+				header('location: ?page=forums');
+			else
+				header('location: #');
+	}
+
+	if(isset($_POST['leave_forum'])){
+		$a = performQuery('DELETE FROM forum_members WHERE forum_id = '.$_SESSION['forum_id'].' AND forum_user_id = '.$_SESSION['user_id'].';');
+		if($a){
+			$_SESSION['counter'] = 2;
+			$_SESSION['status']='success';
+			$_SESSION['mode']='left';
+			$_SESSION['item']='forum';
 		}
+		else
+			$_SESSION['status']='failed';
+		header('location: ?page=forums');
+	}
 	
 ?>
 	
@@ -122,51 +154,26 @@
 									</form>
 								</div>
 								<?php 
-								if(isset($_SESSION['success']) && $_SESSION['success']>=1 && $_SESSION['mode']=='created'){ ?>
-									<div class="alert alert-success">
-									  <button type="button" class="close" data-dismiss="alert">&times;</button>
-									  <strong>Congratulations!</strong> Successfully <?php echo $_SESSION['mode']; ?> a forum.
-									</div>
-								<?php
-								}
-								else if(isset($_SESSION['success']) && $_SESSION['success']<0){ ?>
-									<div class="alert alert-error">
-									  <button type="button" class="close" data-dismiss="alert">&times;</button>
-									  <strong>Sorry!</strong> Something went wrong. Please try again. 
-									</div>
-								<?php }
-								if(isset($_SESSION['success'])){
-									if(($_SESSION['success']==1 || $_SESSION['success']<0)){
-										unset($_SESSION['success']);
+								if(isset($_SESSION['counter'])){
+									if( 0 <= $_SESSION['counter'] && $_SESSION['counter']<=2 ){
+									//	var_dump($_SESSION);
+										if(isset($_SESSION['status']) && $_SESSION['item'] == 'forum'){
+											$status=$_SESSION["status"];
+											$mode=$_SESSION["mode"];
+											$item=$_SESSION["item"];
+											include 'includes/alert.php';
+										}
+									}
+									if($_SESSION['counter'] <= 2)
+										$_SESSION['counter'] -=1;
+									if($_SESSION['counter']<0){
+										unset($_SESSION['counter']);
+										unset($_SESSION['status']);
+										unset($_SESSION['item']);
 										unset($_SESSION['mode']);
 									}
-									else
-										$_SESSION['success']-=1;
-								}
+									}
 								?>
-								<?php 
-								//var_dump($_SESSION);
-								if(isset($_SESSION['success']) && $_SESSION['success']>=1 && $_SESSION['mode']=='joined'){ ?>
-									<div class="alert alert-success">
-									  <button type="button" class="close" data-dismiss="alert">&times;</button>
-									  <strong>Congratulations!</strong> Successfully joined a forum.
-									</div>
-								<?php
-								}
-								else if(isset($_SESSION['success']) && $_SESSION['success']<0){ ?>
-									<div class="alert alert-error">
-									  <button type="button" class="close" data-dismiss="alert">&times;</button>
-									  <strong>Sorry!</strong> Something went wrong. Please try again. 
-									</div>
-								<?php }
-								if(isset($_SESSION['success'])){
-									if(($_SESSION['success']==1 || $_SESSION['success']<0)){
-										unset($_SESSION['success']);
-										unset($_SESSION['mode']);
-									}
-									else
-										$_SESSION['success']-=1;
-								} ?>
 								<div class="row-fluid">
 									<div class="span12">
 										<div class="containerDiv">
@@ -184,6 +191,7 @@
 													if(!isset($userForums->num_rows)){	
 														for($i=0; $i<sizeof($userForums);$i++){ 
 																$myForums = performQuery('SELECT * FROM forum WHERE forum_id = '.$userForums[$i]['forum_id'].';');
+																$author = performQuery('SELECT * FROM forum WHERE forum_id = '.$userForums[$i]['forum_id'].' AND forum_author_id='.$_SESSION['user_id'].';');
 																if(!isset($myForums->num_rows)){
 														?>
 															<tr>
@@ -196,7 +204,7 @@
 																	</form>
 																</td>
 																<?php
-																	if($_SESSION['user_type']=='Teacher'){	?>
+																	if(($_SESSION['user_type']=='Administrator' && !isset($author->num_rows)) || ($_SESSION['user_type']!='Student' && !isset($author->num_rows))){	?>
 																<td>
 																	<form action="" method="post">
 																		<input type="submit" class="action edit" value="" name="edit_forum" />
@@ -209,8 +217,11 @@
 																		<input type="submit" class="action delete" value="" name="delete_forum" />
 																	</form>
 																</td>
+																<?php }
+																else{ ?>
+																	<td>&minus;</td>
+																	<td>&minus;</td>
 																<?php } ?>
-																</td>
 															</tr>
 												<?php		}
 														}
@@ -237,6 +248,7 @@
 									<h4>Create New Forum</h4>
 								</div>
 								<div class="modal-body">
+									<div class="row-fluid">All fields are required</div>
 									<form action = "" method="post" onsubmit="okClicked();">	
 									<div class="input-prepend">
 									  <span class="add-on"><i class="icon-tags"></i></span>
@@ -246,7 +258,16 @@
 									   <span class="add-on"><i class="icon-list"></i></span>
 									  <input class="span10" name="forum_desc" id="prependedInput" type="text" placeholder="Forum description..." required="required" />
 									</div>
-										You may edit the members after creation.
+									<div class="row-fluid">
+										<div class="alert span10">
+											Please enter forum key below. This will serve as a password for students upon joining. 
+										</div>
+									</div>
+									<div class="input-prepend">
+									   <span class="add-on"><i class="icon-check"></i></span>
+									  <input class="span10" name="forum_key" id="prependedInput" type="text" placeholder="Forum key..." required="required" />
+									</div>
+									You may edit members after creating.
 								</div>
 								<div class="modal-footer">
 										<input type="submit" value="Create forum" name="create_forum" />

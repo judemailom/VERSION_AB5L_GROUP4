@@ -14,3 +14,9 @@ input[type="submit"].class{
 #div_forums{
 	margin-left: 15px;
 }
+.leave_forum{
+	background-color: transparent;
+	border: 0px;
+	outline: 0px;
+	float: right;
+}
