@@ -72,7 +72,7 @@
 										<!--------------------------------------FORM KEY MODAL---------------------------------------->
 										<td>
 											<form action="" method="POST">
-												<a name="forum_key" data-toggle="modal" id="forum_key" href="#forum_key<?php echo $i; ?>"><i class="icon-plus"></i></a>
+												<a name="forum_key" data-toggle="modal" title="Join this forum" id="forum_key" href="#forum_key<?php echo $i; ?>"><i class="icon-plus"></i></a>
 											</form>
 										</td>
 								<?php	} 
@@ -80,7 +80,7 @@
 									if($_SESSION['user_type']=='Administrator' || !isset($member->num_rows)){ ?>
 										<td>
 										<form action="" method="POST">
-											<input type="submit" value="" name="enter_forum" class="action enter"/>
+											<input type="submit" title="Enter this forum" value="" name="enter_forum" class="action enter"/>
 											<input type="hidden" value="<?php echo $s_result[$i]['forum_id']?>" name="forum_id" class="action"/>
 										</form>
 										</td>
@@ -94,14 +94,14 @@
 										($author_type[0]['user_type'] == 'Teacher' && $_SESSION['user_type']=='Teacher' && !isset($author->num_rows) ) ){ ?>
 										<td>
 											<form action="" method="POST">
-												<input type="submit" class="action edit" value="" name="edit_forum" />
+												<input type="submit" title="Edit members of this forum" class="action edit" value="" name="edit_forum" />
 												<input type="hidden" value="<?php echo $s_result[$i]['forum_id']?>" name="forum_id" />
 											</form>
 										</td>
 										<td>
 											<form action="" method="POST" onSubmit="return confirm_delete();">
 												<input type="hidden" value="<?php echo $s_result[$i]['forum_id']?>" name="forum_id" />
-												<input type="submit" class="action delete" value="" name="delete_forum" />
+												<input type="submit"  title="Delete this forum" class="action delete" value="" name="delete_forum" />
 											</form>
 										</td>
 								<?php	} else{ ?>

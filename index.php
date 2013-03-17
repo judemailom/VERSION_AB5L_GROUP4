@@ -199,7 +199,7 @@
 																<!--td><?php	echo $myForums[0]['forum_description'];?></td-->
 																<td>
 																	<form action="" method="post">
-																		<input type="submit" class="action enter" value="" name="enter_forum" />
+																		<input type="submit" title = "Enter this forum" class="action enter" value="" name="enter_forum" />
 																		<input type="hidden" value="<?php echo $myForums[0]['forum_id']; ?>" name="forum_id" />
 																	</form>
 																</td>
@@ -207,14 +207,14 @@
 																	if(($_SESSION['user_type']=='Administrator' && !isset($author->num_rows)) || ($_SESSION['user_type']!='Student' && !isset($author->num_rows))){	?>
 																<td>
 																	<form action="" method="post">
-																		<input type="submit" class="action edit" value="" name="edit_forum" />
+																		<input type="submit" title = "Edit members of this forum" class="action edit" value="" name="edit_forum" />
 																		<input type="hidden" value="<?php echo $myForums[0]['forum_id']; ?>" name="forum_id" />
 																	</form>
 																</td>
 																<td>
 																	<form action="" method="post" onSubmit="return confirm_delete();">
 																		<input type="hidden" value="<?php echo $myForums[0]['forum_id']; ?>" name="forum_id" />
-																		<input type="submit" class="action delete" value="" name="delete_forum" />
+																		<input type="submit" title = "Delete this forum" class="action delete" value="" name="delete_forum" />
 																	</form>
 																</td>
 																<?php }
@@ -249,7 +249,7 @@
 								</div>
 								<div class="modal-body">
 									<div class="row-fluid">All fields are required</div>
-									<form action = "" method="post" onsubmit="okClicked();">	
+									<form action = "" method="post" onsubmit="return validate();" name="create_forum_form">	
 									<div class="input-prepend">
 									  <span class="add-on"><i class="icon-tags"></i></span>
 									  <input class="span10" name="forum_name" id="prependedInput" type="text" placeholder="Forum title..." required="required" />
@@ -280,8 +280,9 @@
 			</div>
    </body>
 </html>
-<script>
+<script type="text/javascript">
 function confirm_delete(){
 	return confirm('Are you sure you want to delete this forum?');
-}
+};
+
 </script>
