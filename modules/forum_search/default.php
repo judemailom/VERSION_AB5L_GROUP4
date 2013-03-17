@@ -10,7 +10,7 @@
 	
 <div class="row-fluid">
 		<div class="span9">
-			<div class="well center-aligned">
+			<div class="well">
 			<?php
 		//	var_dump($_POST);
 			if(isset($_POST['search']) || isset($_SESSION['joined'])){
@@ -36,18 +36,25 @@
 						<table class="table table-striped">
 						<tr>
 							<th>Forum Name</th>
+							<th>Forum Author</th>
 							<th>Forum Description</th>
 							<th colspan="3">Actions</th>
 						</tr>
 						<?php
 							for($i=0;$i<sizeof($s_result);$i++){ 
+								$member = performQuery('SELECT * FROM user WHERE user_id IN (SELECT forum_user_id FROM forum_members WHERE forum_id='.$s_result[$i]['forum_id'].' and forum_user_id = '.$_SESSION['user_id'].') OR user_id IN (SELECT forum_author_id FROM forum WHERE forum_author_id = '.$_SESSION['user_id'].' AND forum_id='.$s_result[$i]['forum_id'].');');
+								$author = performQuery('SELECT * FROM forum WHERE forum_id='.$s_result[$i]['forum_id'].' AND forum_author_id='.$_SESSION['user_id'].';');
+								$author_type = performQuery('SELECT user_type FROM user WHERE user_id = (SELECT forum_author_id FROM forum WHERE forum_id = '.$s_result[$i]['forum_id'].');');
+								$author_name = performQuery("SELECT user_uname, user_fname FROM user WHERE user_id = ".$s_result[$i]['forum_author_id'].";");
+					
 							?>
 							<tr>
 								<td><?php echo $s_result[$i]['forum_name']; ?></td>
+								<td><?php echo $author_name[0]['user_fname'].' (@'.$author_name[0]['user_uname'].')';?></td>
 								<td><?php echo $s_result[$i]['forum_description']; ?></td>
 								<?php 
 									//if user is a member or  author of the forum -> display option "enter forum"
-									$member = performQuery('SELECT * FROM user WHERE user_id IN (SELECT forum_user_id FROM forum_members WHERE forum_id='.$s_result[$i]['forum_id'].' and forum_user_id = '.$_SESSION['user_id'].') OR user_id IN (SELECT forum_author_id FROM forum WHERE forum_author_id = '.$_SESSION['user_id'].' AND forum_id='.$s_result[$i]['forum_id'].');');
+									//var_dump($author_type);
 									if($_SESSION['user_type']!='Administrator' && isset($member->num_rows)){ ?>
 										<!--------------------------------------FORM KEY MODAL---------------------------------------->
 											<div id="forum_key<?php echo $i; ?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="forum_key" aria-hidden="true">	
@@ -85,9 +92,6 @@
 										</form>
 										</td>
 									<?php }
-									$author = performQuery('SELECT * FROM forum WHERE forum_id='.$s_result[$i]['forum_id'].' AND forum_author_id='.$_SESSION['user_id'].';');
-									$author_type = performQuery('SELECT user_type FROM user WHERE user_id = (SELECT forum_author_id FROM forum WHERE forum_id = '.$s_result[$i]['forum_id'].');');
-									//var_dump($author_type);
 									
 									if( ($author_type[0]['user_type'] == 'Teacher' && $_SESSION['user_type']=='Administrator') ||
 										($author_type[0]['user_type'] == 'Administrator' && $_SESSION['user_type']=='Administrator' && !isset($author->num_rows) ) || 
@@ -123,16 +127,3 @@
 		</div>
 	</div>
 </div>
-<script type="text/javascript">
-	function validate_forum_key(f){
-
-		$.post( $(f).attr("action"), $(f).serialize(),
-			function (data, textStatus, jqXHR){
-				console.log(jqXHR);
-				$('.forum_key_class').html(data);
-			console.log(textStatus);
-			}
-		);
-		return false;
-	}
-</script>

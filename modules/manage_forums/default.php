@@ -51,6 +51,28 @@
 					$author_of = performQuery('SELECT * FROM forum WHERE forum_author_id = '.$_SESSION['user_id'].' AND forum_id='.$admin_forums[$i]['forum_id'].';');
 					//var_dump($author_of);
 					?>
+					<!--------------------------------------FORM KEY MODAL---------------------------------------->
+						<div id="forum_key<?php echo $i; ?>" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="forum_key" aria-hidden="true">	
+							<form action = "check_forum_key.php" method="POST" onsubmit="return validate_forum_key(this);">	
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+									<h4>Please enter forum key</h4>
+								</div>
+								<div class="modal-body">
+									<div class="forum_key_class"></div>
+									<div class="input-prepend">
+									  <span class="add-on"><i class="icon-check"></i></span>
+									  <input class="span10" name="forum_key" id="prependedInput" type="text" placeholder="Forum key..." required="required" />
+									</div>
+								</div>
+								<div class="modal-footer">
+									<input type="submit" value="Join forum" name="join_forum" />
+									<input type="hidden" value="<?php echo $admin_forums[$i]['forum_id']?>" name="forum_id" class="action"/>
+								</div>
+							</form>
+						</div>
+					<!--------------------------------------FORM KEY MODAL---------------------------------------->
+
 						<tr>
 							<td><?php echo $admin_forums[$i]['forum_name']; ?></td>
 							<td><?php echo $admin_forums[$i]['forum_description']; ?></td>
@@ -58,9 +80,8 @@
 
 							<?php if(isset($author_of->num_rows) && isset($member_of->num_rows)){ ?>
 								<td>
-									<form action="" method="post">
-										<input type="submit" value="" name="join_forum" class="action join"/>
-										<input type="hidden" value="<?php echo $admin_forums[$i]['forum_id']; ?>" name="forum_id" class="action"/>
+									<form action="" method="POST">
+										<a name="forum_key" data-toggle="modal" title="Join this forum" id="forum_key" href="#forum_key<?php echo $i; ?>"><i class="icon-plus"></i></a>
 									</form>
 								</td>
 							<?php } ?>
@@ -68,7 +89,7 @@
 						<?php if(!isset($author_of->num_rows) || !isset($member_of->num_rows)){ ?>
 							<td>
 								<form action="" method="post">
-									<input type="submit" value="" name="enter_forum" class="action enter"/>
+									<input type="submit" title="Enter forum" value="" name="enter_forum" class="action enter"/>
 									<input type="hidden" value="<?php echo $admin_forums[$i]['forum_id']; ?>" name="forum_id" class="action"/>
 								</form>
 							</td>
@@ -76,13 +97,13 @@
 							if(!isset($author_of->num_rows)){ ?>
 							<td>
 								<form action="" method="post">
-									<input type="submit" value="" name="edit_forum" class="action edit"/>
+									<input type="submit" title="Edit members of this forum" value="" name="edit_forum" class="action edit"/>
 									<input type="hidden" value="<?php echo $admin_forums[$i]['forum_id']; ?>" name="forum_id" class="action"/>
 								</form>
 							</td>
 							<td>
 								<form action="" method="post" onsubmit="return confirm_delete();">
-									<input type="submit" value="" name="delete_forum" class="action delete"/>
+									<input type="submit" title="Delete this forum" value="" name="delete_forum" class="action delete"/>
 									<input type="hidden" value="<?php echo $admin_forums[$i]['forum_id']; ?>" name="forum_id" class="action"/>
 								</form>
 							</td>

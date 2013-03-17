@@ -76,6 +76,7 @@
 	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="css/text" href="<?php echo 'modules/'.((!isset($_GET['page']))?'index':$_GET['page']).'/default.css';?>"/>
     <link href="css/default.css" rel="stylesheet">	
+    <script src="js/forum_key.js"> </script>
   </head>
    <body>    
 		<?php 
