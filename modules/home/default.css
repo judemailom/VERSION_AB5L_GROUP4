@@ -1,16 +1,44 @@
-div{
+div#no_announcements{
+	text-align: center;
+	font-weight: bold;
+	padding-top: 5px;
+	padding-left: 30px;
+	padding-right:30px;
+	font-size: 55px;
+}
+.noannouncement{
+	font-weight: bolder;
+	font-size: 40px;
+	padding-top: 100px;
+	text-align: center;
+}div{
 /*  	border: 1px solid #000; 
  */	font-family: comfortaa;
  }
+ #createcolor{
+	color: #0000ff;
+}
 div.header{
 	font-weight: bold;
-	padding: 10px;
-	font-size: 18px;
+	padding-top: 5px;
+	padding-left: 30px;
+	padding-right:30px;
+	font-size: 25px;
+}
+div#no_announcements{
+	text-align: center;
+	font-weight: bold;
+	padding-top: 5px;
+	padding-left: 30px;
+	padding-right:30px;
+	font-size: 55px;
 }
 div.announcement_details{
 	padding: 0px;
 	font-size: 12px;
-	text-align: right;
+	padding-left:30px;
+	padding-right:30px;
+	margin-top:10px;
 }
 div.content{
 	padding: 10px;
@@ -24,4 +52,44 @@ input[type='submit']{
 }
 form#announcement{
 	margin: 0px;
+}
+div.announce{
+	padding: 50px;
+}
+.#posted{
+	font-size: 25px;
+}
+#divContent{
+	padding-left:30px;
+	padding-right:30px;
+}
+#divContent p{
+	text-indent: 50px;
+	font-size: 25px;
+	font-family: comfortaa;
+	text-align: justify;
+}
+div.edit{
+	float:right;
+}
+#announcementinner{
+	margin-left: 50px;
+	margin-right: 50px;
+}
+.lefty{
+	float: left;
+	width: 90px;
+}
+.announcement{
+	margin: 20px;
+	width: 115% !important;
+}
+.createlink{
+	text-align: left;
+	font-family: comfortaa;
+	font-size: 19px;
+	font-weight: bold;
+	text-decoration: none;	
+	padding-left: 70px;
+	color: #515151;
 }

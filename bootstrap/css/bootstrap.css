@@ -1005,7 +1005,8 @@ pre code {
 }
 
 form {
-  margin: 0 0 20px;
+ /* margin: 0 0 20px;
+*/
 }
 
 fieldset {
@@ -1986,9 +1987,9 @@ table {
 .table td {
   padding: 8px;
   line-height: 20px;
-  text-align: left;
+/*  text-align: left;
   vertical-align: top;
-  border-top: 1px solid #dddddd;
+*/  border-top: 1px solid #dddddd;
 }
 
 .table th {
@@ -2866,7 +2867,7 @@ table th[class*="span"],
   margin-top: 8px;
   margin-left: 2px;
 }
-
+/*
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -2892,7 +2893,7 @@ table th[class*="span"],
   -webkit-background-clip: padding-box;
      -moz-background-clip: padding;
           background-clip: padding-box;
-}
+}*/
 
 .dropdown-menu.pull-right {
   right: 0;
@@ -2918,7 +2919,7 @@ table th[class*="span"],
   color: #333333;
   white-space: nowrap;
 }
-
+/*
 .dropdown-menu li > a:hover,
 .dropdown-menu li > a:focus,
 .dropdown-submenu:hover > a {
@@ -2932,7 +2933,7 @@ table th[class*="span"],
   background-image: linear-gradient(to bottom, #0088cc, #0077b3);
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0);
-}
+}*/
 
 .dropdown-menu .active > a,
 .dropdown-menu .active > a:hover {

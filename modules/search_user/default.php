@@ -9,8 +9,8 @@
 				<table id="add_user">
 				
 					<tr><th colspan="2">Search user</td></tr>
-					<tr><td class="body" >User Name: </td><td class="body"><input type="text" name="studname" class="search_user_text" /></td>
-					<td class="body"><input type="submit" class="delete_user" name = "clnameview_submit" value = "Search user" pattern = "[A-z ]{1,}" /></td></tr>
+					<tr><td class="body" >User Name: </td><td class="body"><input type="text" name="studname" class="search_user_text" pattern = "[A-z ]{1,}" /></td>
+					<td class="body"><input type="submit" class="delete_user" name = "clnameview_submit" value = "Search user" /></td></tr>
 			</form>
 				<?php
 					include "includes/connect.php";
@@ -20,14 +20,15 @@
 					if(isset($_POST['clnameview_submit'])){
 						$flagy = 0;
 						$temp=$_POST['studname'];
+						$temp2=$_SESSION['user_id'];
 						
 						//query for user full name
-						$query=performQuery("SELECT * FROM user WHERE user_fname LIKE '%$temp%' ");
+						$query=performQuery("SELECT * FROM user WHERE user_fname LIKE '%$temp%' and user_id NOT LIKE '$temp2' ");
 						
 						echo "<table class='table table-striped' width=1000 cellpadding=100> <tr><td>User name</td><td>User type</td></tr>";
 						for($i=0;$i<sizeof($query);$i++){?>
 							<form id="delete_user" method="post" action="" onsubmit="return verify()">
-						<?php	$query=performQuery("SELECT * FROM user WHERE user_fname LIKE '%$temp%' ");
+						<?php	$query=performQuery("SELECT * FROM user WHERE user_fname LIKE '%$temp%' and user_id NOT LIKE '$temp2' ");
 							echo "<tr><td>{$query[$i]['user_fname']}</td>";
 							echo "<td>{$query[$i]['user_type']}</td>";
 							echo "<td><input type=submit class=delete_user name=delete_student value=Delete>
