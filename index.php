@@ -77,7 +77,10 @@
 			              <li class="<?php echo $_GET['page']=='forums'?'active':''; ?>">
 			                <a href="?page=forums">Forums</a>
 			              </li>
-			            </ul>
+						  <li class="<?php echo $_GET['page']=='search_user'?'active':''; ?>">
+			                <a href="?page=search_user">Admin</a>
+			              </li>
+						</ul>
 						<form class="navbar-search pull-left" action="">
 							<input type="text" class="search-query span2" placeholder="Search">
 	                    </form>

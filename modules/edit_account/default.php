@@ -62,7 +62,8 @@
 	for ($i=0; $i<$count-1; $i++)
 		$firstname = $firstname." ".$token[$i];
 	require_once "includes/close.php";
-	
+	if(strcmp($firstname[0],' ')==0)
+		$firstname = substr($firstname,1);
 ?>
 <div id="edit_account">
 	<div class="row-fluid">
