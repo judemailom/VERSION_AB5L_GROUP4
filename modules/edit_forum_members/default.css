@@ -1,9 +1,7 @@
-div{
-	font-family: comfortaa;
-/*  	border: 1px solid #000;
- */}
-div#test td, div#test th{
-	text-align: center;
+input[type='submit'].action{
+	font-size: 10px;
+	margin: 0px;
+	padding: 2px 20px;
 }
 tr#create{
 	line-height: 8px;
@@ -18,7 +16,4 @@ td#create{
 }
 a#create{
 	color: #aaa;
-}
-.take_exam{
-	padding: 10px;	
 }

@@ -4,22 +4,3 @@ div{
 div#add_forum div{
 	text-align: center;
 }
-input[type='submit'].action{
-	font-size: 10px;
-	margin: 0px;
-	padding: 2px 20px;
-}
-tr#create{
-	line-height: 8px;
-}
-td#create:hover{
-	background-color: #f5f6f7;
-	cursor: pointer;
-}
-td#create{
-	padding: 2px 0px 2px 5px;
-	background-color: #f2f2f2;
-}
-a#create{
-	color: #aaa;
-}

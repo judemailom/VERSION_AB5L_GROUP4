@@ -3,14 +3,16 @@
 	require_once "includes/connect.php";
 	require_once "includes/use_db.php";
 
+	//if save changes button is selected
 	if(isset($_POST['save_changes'])){
 		require_once "includes/query.php";
 
-		//save
+		//save user information into variables
 		$announcement_id = $_POST['announcement_id'];
 		$announcement_title = $_POST['announcement_title'];
 		$announcement_content = $_POST['announcement_content'];
 
+		//update database
 		$update_announcement = "update announcement set announcement_title ='".$announcement_title."',announcement_content ='".
 								$announcement_content."' where announcement_id=".$announcement_id.";";
 						
@@ -22,21 +24,28 @@
 		}
 	
 		unset($_POST);
+		//set announcement_edited to true for alert js
 		$_SESSION['announcement_edited'] = true;
-		header("Location: ?page=add_announcement");	
+		//go back to add announcement page
+		header("Location: ?page=home");	
 		include "includes/close.php";
 	}
+	//if cancel button is selected
 	elseif (isset($_POST['cancel'])) {
 		unset($_POST);
-		header("Location: ?page=add_announcement");	
+		//go back to add announcement page
+		header("Location: ?page=home");	
 		include "includes/close.php";
 	}
 ?>
 <!-- End of Edit Announcement php -->
 
+<!-- Edit Announcement -->
 <div id="edit_announcement">
-	<div class="row-fluid">
-		<h4 id="editheader" class="span4"> Edit Announcement </h>
+	<div class="row-fluid edit">
+		<div class="span7">
+			<h4 class="span7"> Edit Announcement </h>
+		</div>
 		<div class="span9 announcement">
 			<br><br>
 			<form method="post">
@@ -83,3 +92,4 @@
 		</div>
 	</div>
 </div>
+<!-- End of Edit Announcement -->
