@@ -1,32 +1,40 @@
-#content{
-	border-left: 2px solid #F9F9F9;
-	border-right: 2px solid #F9F9F9;
-	box-shadow: 3px 3px 5px #F9F9F9;
+div{
+	display: block;
+}
+body{
 	height: 100%;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	left: 0px;
+}
+#content{
+	background: url(../img/bg.png);
+	height: 100%;
+	position: absolute;
 }
 #header{
-	background-color: #323232;
+	background-color: #FFF;
+	height: 100px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	padding: 0px;
 /* 	border: 1px solid #000;
  */}
-body{
-/*  	background-color: #EDEDED;
- */ }
-input[type='submit']{
-	background-color: #323232;
-	border-radius: 13px;
-	padding: 8px 25px 8px 25px;
-	color: #EDEDED;
-	font-family: comfortaa;
-	font-size: 13px;
-	margin: 10px;
-	cursor: hand;
+.below-header{
+	margin-top: 100px;
 }
-div{
-/*     border: 1px solid #000;
- */}
+body{
+ 	background-color: #EDEDED;
+ 	font-family: comfortaa;
+}
 img#logo{
-	height: 100px;
-	margin: auto;
+	height: 90px;
+	margin: 10px 0px;
+	margin-left: 50px;
 }	
 .desc{
 	text-align: center;
@@ -48,8 +56,7 @@ img#dots{
 	margin-right: 20px;
 }
 img#logo_header{
-	height: 50px;
-	margin-left: 20px;
+	margin-left: 30px;
 }
 table#desc tr td{
 	height: 100%;
@@ -57,4 +64,132 @@ table#desc tr td{
 	font-family: comfortaa;
 	font-size: 16px;
 	color: #FFF;
+}
+#red{
+	color: #DD6A68;
+	width: 20px;
+}
+.data-inline{
+	display: inline-block;	
+}
+.account{
+	padding-top: 40px;
+}
+
+.bordered{
+	border: 1px solid #000;
+
+}
+.menu{
+	padding: 30px;
+	list-style: none;
+	display: inline-block;
+}
+.menu a:hover, .menu a.active, .button:hover{
+	background-color: #de6b69;
+	padding: 10px 20px;
+	color: #fff;
+	border-radius: 10px;
+	-webkit-animation: rounded-corner 0.3s;
+}
+@-webkit-keyframes rounded-corner{
+	0%   {border-radius:0px;}
+	100% {border-radius: 10px;}
+}
+.menu a, .button{
+	background-color: #e2e2e2;
+	padding: 10px 20px;
+	color: #323232;
+	border: 0px;
+	outline: 0px;
+}
+.menu-item{
+	display: inline-block;
+	text-align: -webkit-match-parent;
+	padding: 0px;
+	margin: 0px;
+}
+.right-aligned{
+	text-align: right;
+}
+.center-aligned{
+	text-align: center;
+}
+.account{
+	padding: 45px;
+}
+a.username, a.username:hover, a.username:active{
+	background-color: #F9F9F9;
+	border-radius: 10px;
+	color: #383838;
+	outline: 0px;
+}
+a.dropdown-element{
+	background-color: #f9f9f9;
+}
+a.dropdown-element:hover{
+	background-color: #f9f4f4;
+	color: #333333;
+}
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 80px;
+  z-index: 1000;
+  display: none;
+  float: right;
+  min-width: 160px;
+*/  list-style: none;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.dropdown-menu li > a:hover,
+.dropdown-menu li > a:focus,
+.dropdown-submenu:hover > a {
+  color: #333333;
+  text-decoration: none;
+}
+.action{
+	background-color: transparent;
+	outline: 0px;
+	border: 0px;
+	background-image: url("../bootstrap/img/glyphicons-halflings.png");
+	background-position: 14px 14px;
+	display: inline-block;
+	width: 15px;
+	height: 14px;
+	margin-top: 10px;
+}
+.enter{
+	background-position: -120px -72px;
+}
+.edit{
+	background-position: -96px -72px;
+}
+.delete{
+	background-position: -168px -96px;
+}
+#forums{
+	margin: 0px;
+	background-color: #fff;
+	padding: 10px;
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	top: 0px;
+}
+tr#create{
+	line-height: 8px;
+}
+td#create:hover{
+	background-color: #f5f6f7;
+	cursor: pointer;
+}
+td#create{
+	padding: 2px 0px 2px 5px;
+	background-color: #f2f2f2;
+}
+a#create{
+	color: #aaa;
 }

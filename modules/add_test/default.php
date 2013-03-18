@@ -4,7 +4,7 @@
 ?>
 <div id="add_test">
 	<?php
-		if(!isset($_POST['next_step']) && !isset($_POST['add_question']) && !isset($_POST['submit_test'])){
+		if(!isset($_POST['next_step']) && !isset($_POST['add_question']) && !isset($_POST['submit_test'])){ 
 	?>
 	<div class="container-fluid">
 		<div class="row-fluid">
@@ -26,7 +26,8 @@
 						Deadline of the test: MM/DD/YYYY
 					</label>
 					<div class="row-fluid">
-							<input type="date" name="test_date_deadline" class="span3" />
+							<input type="date" name="test_date_deadline" class="input-medium" />
+							<input type="time" name="test_time_deadline" class="input-small" />
 					</div>
 					<label>
 					Please check the classlists that are required for this test
@@ -133,7 +134,7 @@
 			$_SESSION['QUESTIONS'] += $_POST;
 			//var_dump($_SESSION);
 			$author_id = performQuery('select user_id from user where user_uname = "'.$_SESSION['user'].'";');
-			$test_id = performQuery('CALL add_test("", "'.$_SESSION['QUESTIONS']['test_title'].'", '.$author_id[0]['user_id'].', '.$_SESSION['item'].', "UNFINISHED", "'.date('Y-m-d').'", "'.$_SESSION['QUESTIONS']['test_date_deadline'].'");');
+			$test_id = performQuery('CALL add_test("", "'.$_SESSION['QUESTIONS']['test_title'].'", '.$author_id[0]['user_id'].', '.$_SESSION['item'].', "UNFINISHED", "'.date('Y-m-d').'", "'.$_SESSION['QUESTIONS']['test_date_deadline'].' '.$_SESSION['QUESTIONS']['test_time_deadline'].'");');
 			$i=0;
 			 while(isset($_SESSION['QUESTIONS']['test_classlist'.$i])){
 				$a = performQuery( 'CALL add_test_classlist('.$test_id[0]['last_insert_id()'].', "'.$_SESSION['QUESTIONS']['test_classlist'.$i].'");');
@@ -144,14 +145,21 @@
 			while(isset($_SESSION['QUESTIONS']['Q'.$i])){
 				$question_id = performQuery('CALL add_question("", '.$test_id[0]['last_insert_id()'].', "'.$_SESSION['QUESTIONS']['Q'.$i].'","'.$_SESSION['QUESTIONS']['Q'.$i.'_choice_A'].'", "'.$_SESSION['QUESTIONS']['Q'.$i.'_choice_B'].'", "'.$_SESSION['QUESTIONS']['Q'.$i.'_choice_C'].'", "'.$_SESSION['QUESTIONS']['Q'.$i.'_choice_D'].'", "'.$_SESSION['QUESTIONS']['Q'.$i.'_correct_answer'].'", '.$i.');');
 				//var_dump($test_id);
-				performQuery('INSERT INTO test_question VALUES('.$test_id[0]['last_insert_id()'].', '.$question_id[0]['last_insert_id()'].');');
+				$b = performQuery('INSERT INTO test_question VALUES('.$test_id[0]['last_insert_id()'].', '.$question_id[0]['last_insert_id()'].');');
 			$i++;
 			}
-			$_SESSION['test_id'] = $test_id[0]['last_insert_id()'];
-			//clear all uneccessary session values
-			unset($_SESSION['item']);
-			unset($_SESSION['QUESTIONS']);
-			include_once 'js/add_test.js';
+			if($b){
+				$_SESSION['test_id'] = $test_id[0]['last_insert_id()'];
+				//clear all uneccessary session values
+				unset($_SESSION['item']);
+				unset($_SESSION['QUESTIONS']);
+				$_SESSION['success']=2;
+				$_SESSION['mode'] = 'created';
+			}
+			else
+				$_SESSION['success']=0;
+			header('location: ?page=view_test&&test_id='.$test_id[0]['last_insert_id()'].'');
+			
 		}
 	?>
 </div>

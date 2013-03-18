@@ -1,13 +1,29 @@
 <?php
 	include 'includes/query.php';
 	session_start();
-//	session_destroy();
-
-	/*NAVIGATIONS*/
-	if(isset($_POST['signup']))
-		header('location: ?page=signup');
-	if(isset($_POST['login']))
-		header('location: ?page=login');
+	//session_destroy();
+	
+	if(isset($_SESSION['user'])){
+		$USER = performQuery( "SELECT * FROM user WHERE user_uname='".$_SESSION['user']."';");
+	//	echo 'SELECT * FROM forum_members WHERE forum_user_id='.$USER[0]['user_id'].';';
+	
+		if($USER[0]['user_type'] == 'Student')
+			$userForums = performQuery('SELECT * FROM forum_members WHERE forum_user_id='.$USER[0]['user_id'].';');
+		else{
+			//echo 'SELECT * FROM forum WHERE forum_author_id = '.$USER[0]['user_id'].' OR forum_id IN (SELECT forum_id FROM forum_members WHERE forum_user_id = '.$USER[0]['user_id'].');';
+			$userForums = performQuery('SELECT * FROM forum WHERE forum_author_id = '.$USER[0]['user_id'].' OR forum_id IN (SELECT forum_id FROM forum_members WHERE forum_user_id = '.$USER[0]['user_id'].');');
+			//var_dump($userForums);
+		}
+		if(isset($_GET['func']) && $_GET['func']=='create_forum'){
+			include 'js/add_forum.js';
+			unset($_GET['func']);
+		}	
+	}
+	if(isset($_POST['enter_forum'])){
+		$_SESSION['forum_id'] = $_POST['forum_id'];
+		header('location: ?page=enter_forum');
+		}
+	
 ?>
 	
 <!DOCTYPE html>
@@ -22,136 +38,131 @@
     <link href="css/default.css" rel="stylesheet">	
   </head>
    <body>    
-
 		<?php 
 			if(isset($_GET['page'])){
 		?>	
-			<div id="header">
-				<div class="row-fluid">
-					<div class="span12">
-					</div>
-				</div>
-				<div class="row-fluid">
-					<div class="span12">
-						<div class="span2">
+			<div class="row-fluid">
+				<div id="header">
+					<!--div class="row-fluid"-->
+						<div class="span3">
 							<a href="<?php echo isset($_SESSION['user'])?'?page=home':'index.php'; ?> ">
-								<img src="img/logo_mini.png" id="logo_header" />
+								<img src="img/logo.png" id="logo" />
 							</a>
 						</div>
-						<div class="span9">
-							<table id="desc">
-								<tr><td>I learn. You learn. We learn. Chos!</td>
-								</tr>
-							</table>
+						<div class="span6">
 						</div>
-						<div class="span1" style="text-align: right;">
-							<img src="img/dots.png" id="dots" />
-						</div>
-					</div>
-				</div>
-				<div class="row-fluid">
-					<div class="span12">
-					</div>
-				</div>
-			</div>
-			<div <?php echo isset($_SESSION['user'])?'id="content"':'class="main"'; ?>>
-				<?php	
-			}
-			if(isset($_SESSION['user'])){
-		?>	
-			<div class="navbar navbar-inverse">
-				 <div class="navbar-inner">
-					<a class="brand" href="#">Menu</a>
-			        <div class="container">
-			          <div class="nav-collapse">
-			            <ul class="nav">
-			              <li class="<?php echo $_GET['page']=='home'?'active':''; ?>">
-			                <a href="?page=home">Home</a>
-			              </li>
-			              <li class="<?php echo $_GET['page']=='tests'?'active':''; ?>">
-			                <a href="?page=tests">Tests</a>
-			              </li>
-			              <li class="<?php echo $_GET['page']=='view_classlist'?'active':''; ?>">
-			                <a href="?page=view_classlist">Classlists</a>
-			              </li>
-			              <li class="<?php echo $_GET['page']=='forums'?'active':''; ?>">
-			                <a href="?page=forums">Forums</a>
-			              </li>
-						  <li class="<?php echo $_GET['page']=='search_user'?'active':''; ?>">
-			                <a href="?page=search_user">Admin</a>
-			              </li>
-						</ul>
-						<form class="navbar-search pull-left" action="">
-							<input type="text" class="search-query span2" placeholder="Search">
-	                    </form>
-						<ul class="nav pull-right">
-							<li><a href="#">@<?php echo $_SESSION['user']; ?></a></li>
-							<li class="divider-vertical"></li>
-							<li id="fat-menu" class="dropdown">
-		                      <a href="#" id="account" role="button" class="dropdown-toggle" data-toggle="dropdown">Account<b class="caret"></b></a>
-		                      <ul class="dropdown-menu" role="menu" aria-labelledby="account">
-		                        <li role="presentation"><a role="menuitem" tabindex="-1" href=""><?php echo $_SESSION['user']; ?></a></li>
-		                        <li role="presentation"><a role="menuitem" tabindex="-1" href=""><?php echo $_SESSION['user_type']; ?></a></li>
-		                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?page=edit_account">Edit account</a></li>
-		                        <li role="presentation" class="divider"></li>
-		                        <li role="presentation"><a role="menuitem" tabindex="-1" href="?page=logout">Logout</a></li>
-		                      </ul>
-		                    </li>
-	                    </ul>
-			          </div>
-			        </div>
-			    </div>
-			</div>
-		<?php	}
-			if(isset($_SESSION['user'])){	?>
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span12">
-			<?php } ?>
-					<div >
-						<div class="row-fluid">
-							<?php if(isset($_SESSION['user'])){ ?>
-								<div class="span1">
-								</div>
-							<?php }	?>
-							<div class="<?php echo isset($_SESSION['user'])?'span10':'span12'; ?>" id="<?php echo isset($_SESSION['user'])?'content':'main'; ?>">
-								<?php	include 'modules/'.((!isset($_GET['page']))?'index':$_GET['page']).'/default.php'; ?>
+						<div class="span3 nav pull-right account">
+							<div class="menu-item menu">
+								Welcome <a class="username" href="#" data-toggle="dropdown">@<?php echo $_SESSION['user']; ?></a> ! 
+								<ul class="dropdown-menu" role="menu" aria-labelledby="account">
+				                        <li role="presentation"><a class="dropdown-element" role="menuitem" tabindex="-1" href="">@<?php echo $_SESSION['user']; ?></a></li>
+				                        <li role="presentation"><a class="dropdown-element" role="menuitem" tabindex="-1" href=""><?php echo $_SESSION['user_type']; ?></a></li>
+				                        <li role="presentation"><a class="dropdown-element" role="menuitem" tabindex="-1" href="?page=edit_account">Edit account</a></li>
+				                        <li role="presentation" class="divider"></li>
+				                        <li role="presentation"><a class="dropdown-element" role="menuitem" tabindex="-1" href="?page=logout">Logout</a></li>
+				                      </ul>
 							</div>
-							<?php if(isset($_SESSION['user'])){ ?>
-								<div class="span1">
-								</div>
-							<?php }	?>
+				                      
 						</div>
+				</div>
+				<?php } ?>
+				<div class="row-fluid <?php echo isset($_SESSION['user'])?'below-header':'';?>">
+					<div class="span12" id="content">
+						<?php if(isset($_SESSION['user'])){?>
+							<div class ="span7 menu">
+								<div class="menu-item <?php echo isset($_GET['page'])?$_GET['page']=='home'?'active':'':''; ?>">
+									<a <?php $sub = $_SESSION['user_type']=='Teacher'?'home':'home'; echo isset($_GET['page'])&&$_GET['page']==$sub?'class="active"':''; ?> href="?page=<?php echo $_SESSION['user_type']=='Teacher'?'home':'home' ?>">Home</a>
+								</div>
+								<div class="menu-item">
+									<a <?php echo isset($_GET['page'])&&$_GET['page']=='tests'?'class="active"':''; ?> href="?page=tests">Tests</a>
+								</div>
+								<div class="menu-item">
+									 <a <?php echo isset($_GET['page'])&&$_GET['page']=='view_classlist'?'class="active"':''; ?> href="?page=view_classlist">Classlists</a>
+								</div>
+								<div class="menu-item">
+									<a <?php echo isset($_GET['page'])&&$_GET['page']=='forums'?'class="active"':''; ?>href="?page=forums">Forums</a>
+								</div>
+							</div>
+							<div class="span5 right-aligned account">
+								
+							</div>
+						<?php }	
+						include 'modules/'.((!isset($_GET['page']))?'index':$_GET['page']).'/default.php'; ?>
+
+<!-------------------------------------------------FORUM NAVIGATOR-------------------------------------------------------------------->
+						<?php if(isset($_SESSION['user'])){?>
+							<div id="forums" class="span3">
+								<div class="row-fluid">
+									<div class="span12">
+										<div class="containerDiv">
+											<table class="table table-striped center-aligned">
+												<tr>
+													<th>Your forums</th>
+													<!--th>Description</th-->
+													<th colspan="3">Actions</th>
+												</tr>
+												<?php if($_SESSION['user_type']=='Teacher'){ ?>
+													<tr id = "create">
+														<td colspan="5" id="create"><a name="create" id="create" href="?page=forums&&func=create_forum">&plus; Create new forum...</a></td>
+													</tr>
+												<?php } ?>
+												<?php
+													if(!isset($userForums->num_rows)){	
+														for($i=0; $i<sizeof($userForums);$i++){ 
+																$myForums = performQuery('SELECT * FROM forum WHERE forum_id = '.$userForums[$i]['forum_id'].';');
+																if(!isset($myForums->num_rows)){
+														?>
+															<tr>
+																<td><?php	echo $myForums[0]['forum_name'];?></td>
+																<!--td><?php	echo $myForums[0]['forum_description'];?></td-->
+																<td>
+																	<form action="" method="post">
+																		<input type="submit" class="action enter" value="" name="enter_forum" />
+																		<input type="hidden" value="<?php echo $myForums[0]['forum_id']; ?>" name="forum_id" />
+																	</form>
+																</td>
+																<?php
+																	if($_SESSION['user_type']=='Teacher'){	?>
+																<td>
+																	<form action="" method="post">
+																		<input type="submit" class="action edit" value="" name="edit_forum" />
+																		<input type="hidden" value="<?php echo $myForums[0]['forum_id']; ?>" name="forum_id" />
+																	</form>
+																</td>
+																<td>
+																	<form action="" method="post" onSubmit="return confirm_delete();">
+																		<input type="hidden" value="<?php echo $myForums[0]['forum_id']; ?>" name="forum_id" />
+																		<input type="submit" class="action delete" value="" name="delete_forum" />
+																	</form>
+																</td>
+																<?php } ?>
+																</td>
+															</tr>
+												<?php		}
+														}
+													}
+													else{
+														if($USER[0]['user_type'] == 'Student'){ ?>
+															<tr><td colspan="3">You are not a member of any forum. You can search for a forum in the search bar and ask to join.</td></tr>
+													<?php	}
+														else{	?>
+															<tr><td colspan="3">You do not own a forum. You can create a forum by clicking Create Forum above.</td></tr>
+													<?php	}
+													}	?>
+											</table>
+										</div>	
+									</div>	
+								</div>
+							</div>
+<!--------------------------------------------------------------END OF FORUM NAVIGATOR ------------------------------------------------------>
+						<?php } ?>
 					</div>
 				</div>
 			</div>
-		</div>
-		</div>
-		<div class="navbar navbar-inverse navbar-fixed-bottom">
-			<div class="navbar-inner">
-				<div class="container">
-					  <div class="nav-collapse">
-						<ul class="nav">
-							<li><a href="">About iLearn</a></li>
-						</ul>
-						<ul class="nav">
-							<li><a href="">Location</a></li>
-						</ul>
-						<ul class="nav">
-							<li><a href="">Developers</a></li>
-						</ul>
-						<ul class="nav">
-							<li><a href="">Contact Us</a></li>
-						</ul>
-						<ul class="nav">
-							<li><a href="">Link2</a></li>
-						</ul>
-						<ul class="nav">
-							<li><a href="">Link3</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
    </body>
 </html>
+<script>
+function confirm_delete(){
+	return confirm('Are you sure you want to delete this forum?');
+}
+</script>
