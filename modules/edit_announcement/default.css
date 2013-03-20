@@ -10,3 +10,7 @@
 .edit_announcement_text{
 	width: 500px;
 }
+#edit_announcement{
+	padding-left: 200px;
+	padding-right: 200px;
+}

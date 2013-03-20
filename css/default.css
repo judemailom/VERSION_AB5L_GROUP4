@@ -8,12 +8,12 @@ body{
 	bottom: 0px;
 	right: 0px;
 	left: 0px;
+	background: url(../img/bg.png);
 }
 #content{
-	background: url(../img/bg.png);
-	height: 100%;
+/*	height: 100%;
 	position: absolute;
-}
+*/}
 #header{
 	background-color: #FFF;
 	height: 100px;
@@ -22,6 +22,8 @@ body{
 	left: 0;
 	right: 0;
 	padding: 0px;
+	position: fixed;
+	z-index: 10;
 /* 	border: 1px solid #000;
  */}
 .below-header{
@@ -126,6 +128,7 @@ a.username, a.username:hover, a.username:active{
 }
 a.dropdown-element{
 	background-color: #f9f9f9;
+	list-style: none;
 }
 a.dropdown-element:hover{
 	background-color: #f9f4f4;
@@ -139,7 +142,7 @@ a.dropdown-element:hover{
   display: none;
   float: right;
   min-width: 160px;
-*/  list-style: none;
+  list-style: none;
   background-color: #f9f9f9;
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -170,6 +173,15 @@ a.dropdown-element:hover{
 .delete{
 	background-position: -168px -96px;
 }
+.top{
+	background-position: -120px 0;	
+}
+.scores{
+	background-position: -264px 0;
+}
+.join{
+  background-position: -408px -96px;
+}
 #forums{
 	margin: 0px;
 	background-color: #fff;
@@ -177,7 +189,18 @@ a.dropdown-element:hover{
 	position: absolute;
 	right: 0px;
 	bottom: 0px;
-	top: 0px;
+	top: 0px; 	
+	position: fixed;
+	padding-top: 100px;
+	float: right;
+	overflow:auto;
+	scrollbar-face-color: #000000;
+	scrollbar-shadow-color: #2D2C4D;
+	scrollbar-highlight-color:#7D7E94;
+	scrollbar-3dlight-color: #7D7E94;
+	scrollbar-darkshadow-color: #2D2C4D;
+	scrollbar-track-color: #7D7E94;
+	scrollbar-arrow-color: #C1C1D1;
 }
 tr#create{
 	line-height: 8px;

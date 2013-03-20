@@ -9,6 +9,9 @@ div.header{
 	padding-right:30px;
 	font-size: 25px;
 }
+#createcolor{
+	color: #0000ff;
+}
 div#no_announcements{
 	text-align: center;
 	font-weight: bold;

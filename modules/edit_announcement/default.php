@@ -1,3 +1,15 @@
+<?php
+	require_once "includes/query.php";
+	require_once "includes/connect.php";
+	require_once "includes/use_db.php";
+	//get user information
+	$query =  'select * from user where user_uname = "'.$_SESSION['user'].'";';
+	$r = performQuery($query);
+	$user_type = $r[0]['user_type'];
+
+	if($user_type == 'Student')
+		header("Location: ?page=home");	
+?>
 <!-- EDIT ANNOUNCEMENT -->
 <?php
 	require_once "includes/connect.php";
@@ -7,25 +19,42 @@
 	if(isset($_POST['save_changes'])){
 		require_once "includes/query.php";
 
+		//get user information
+		$query = "select * from user where user_uname = '{$_SESSION['user']}'";	
+		$result = mysql_query($query, $con);
+		$sid =  performQuery($query);
+
 		//save user information into variables
 		$announcement_id = $_POST['announcement_id'];
 		$announcement_title = $_POST['announcement_title'];
 		$announcement_content = $_POST['announcement_content'];
 
-		//update database
-		$update_announcement = "update announcement set announcement_title ='".$announcement_title."',announcement_content ='".
-								$announcement_content."' where announcement_id=".$announcement_id.";";
-						
-		$result1 = performQuery($update_announcement);
+		//delete from database
+		$delete_announcement = "delete from announcement where announcement_id=".$announcement_id.";";
+
+		//insert announcement into database
+		$new_announcement = "insert into announcement (announcement_author,author_id,announcement_date,announcement_title,announcement_content) 
+						values(
+							'{$sid[0]['user_fname']}',
+							'{$sid[0]['user_id']}',
+							NULL,
+							'{$announcement_title}', 
+							'{$announcement_content}'
+						)";
+
+		$result1 = performQuery($delete_announcement);
+		$result2 = performQuery($new_announcement);	
+		//set announcement_edited to true for alert
+		$_SESSION['announcement_edited'] = true;
 					
 		if (!$result1) {
+			//set announcement_edited to false for alert
+			$_SESSION['announcement_edited'] = false;
 			echo "Could not successfully run query {$update_announcement} from DB: " . mysql_error();
 			exit;
 		}
 	
 		unset($_POST);
-		//set announcement_edited to true for alert js
-		$_SESSION['announcement_edited'] = true;
 		//go back to add announcement page
 		header("Location: ?page=home");	
 		include "includes/close.php";

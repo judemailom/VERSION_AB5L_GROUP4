@@ -1,8 +1,11 @@
+<<<<<<< HEAD
+=======
 input[type='submit'].action{
 	font-size: 10px;
 	margin: 0px;
 	padding: 2px 20px;
 }
+>>>>>>> 551702b4a0a3fc170f73daa166ee9f0dc6f160e7
 tr#create{
 	line-height: 8px;
 }

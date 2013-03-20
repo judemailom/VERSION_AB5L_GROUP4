@@ -1,8 +1,9 @@
 DROP PROCEDURE IF EXISTS add_test;
 DELIMITER $$
-CREATE PROCEDURE add_test(_id INT(64), _title VARCHAR(64), _author_id INT(64), _test_length INT(64), _test_status ENUM('FINISHED', 'UNFINISHED'), _test_date_uploaded TIMESTAMP, _test_date_finished TIMESTAMP)
+<<<<<<< HEAD
+CREATE PROCEDURE add_test(_key VARCHAR(64), _id INT(64), _title VARCHAR(64), _author_id INT(64), _test_length INT(64), _test_status ENUM('FINISHED', 'UNFINISHED'), _test_date_uploaded TIMESTAMP, _test_date_finished TIMESTAMP)
 BEGIN
-	INSERT INTO test VALUES(_id, _title, _author_id, _test_length, _test_status, _test_date_uploaded, _test_date_finished);
+	INSERT INTO test VALUES(_key, _id, _title, _author_id, _test_length, _test_status, _test_date_uploaded, _test_date_finished);
 	SELECT last_insert_id();
 END $$
 DELIMITER ;

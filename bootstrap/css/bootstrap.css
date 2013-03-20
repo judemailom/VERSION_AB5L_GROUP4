@@ -2254,8 +2254,8 @@ table th[class*="span"],
   line-height: 14px;
   vertical-align: text-top;
   background-image: url("../img/glyphicons-halflings.png");
-  background-position: 14px 14px;
-  background-repeat: no-repeat;
+/*  background-position: 14px 14px;
+*/  background-repeat: no-repeat;
 }
 
 /* White icons with optional class, or on hover/active states of certain elements */
@@ -3062,6 +3062,7 @@ table th[class*="span"],
 }
 
 .well {
+  margin-left: 20px;
   min-height: 20px;
   padding: 19px;
   margin-bottom: 20px;

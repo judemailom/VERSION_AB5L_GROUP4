@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 div#edit_account{
  	margin: 50px;
 	font-family: comfortaa;
@@ -35,4 +36,43 @@ div#edit_account table#edit_account th{
 	font-size: 25px;
  	text-align: left;
 	
+=======
+div#edit_account{
+ 	margin: 50px;
+	font-family: comfortaa;
+}
+div#edit_account table#edit_account td{
+/*     border: 1px solid #000;
+ */	text-align: left;
+	height: 20px;
+	padding: 1px;
+	
+}
+div#edit_account table#edit_account{
+/*    	border: 1px solid #000;
+ */	padding: 0px;
+	border-collapse: collapse;
+	width: 300px;
+}
+div#edit_account input[type="text"], div#edit_account input[type="password"]{
+	background-color: #E3E3E3;
+	border: 0px;
+	outline: 0px;
+	padding: 10px;
+	font-family: inherit;
+	color: #323232;
+	width: 80%;
+	font-size: 15px;
+	margin: 5px;
+}
+div#edit_account a{
+	color: #323232;
+}
+div#edit_account table#edit_account th{
+	padding: 5px;
+	font-weight: bold;
+	font-size: 25px;
+ 	text-align: left;
+	
+>>>>>>> 551702b4a0a3fc170f73daa166ee9f0dc6f160e7
 }

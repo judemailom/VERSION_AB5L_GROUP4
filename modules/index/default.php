@@ -81,7 +81,7 @@
 							$new_student = "insert into student values(
 								'{$sid['user_id']}',
 								'{$_POST['school']}',
-								'{$_POST['stdnum']}'
+								'{$_POST['level']}'
 							)";
 							mysql_query($new_student, $con);
 						}
@@ -109,7 +109,7 @@
 ?>
 
 <div class="span12">
-	<div class="span12 top-home">
+	<div class="span12 top-home fixed-top" style="position: fixed">
 		<div class="span3 title">
 			<a href="#"><img class="logo" src="img/logo.png"/></a>
 		</div>
@@ -233,7 +233,7 @@
 						<input type="radio" id="student" value="Student" required = "required" onclick = "enableTextBox('lvl','dpt')" name = "type" /><label for="student">Student</label>
 						<input type="radio" id="teacher" name = "type" value= "Teacher" required = "required" onclick = "enableTextBox('dpt','lvl')" /><label for="teacher">Teacher</label>
 						<br />	
-						<input type="text" class="login_text" placeholder="Student number" id="lvl" name = "stdnum" disabled="true" required = "false" />
+						<input type="text" class="login_text" placeholder="Level" id="lvl" name = "level" disabled="true" required = "false" />
 						<br />
 						<input type="text" class="login_text" placeholder="Department" id="dpt" name = "dept" disabled="true" required = "false"  />
 						<br />

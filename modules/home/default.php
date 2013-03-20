@@ -1,25 +1,35 @@
+<!-- ALERTS -->
+<?php
+	if((isset($_SESSION['announcement_added'])) || (isset($_SESSION['announcement_deleted'])) || (isset($_SESSION['announcement_edited']))){
+?>
+	<div class="span8" style="padding-top: 5px; padding-left: 50px;" >
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<strong> 
+				<?php
+					if(isset($_SESSION['announcement_added']))
+						echo "You have successfully added an announcement!";
+					else if(isset($_SESSION['announcement_deleted']))
+						echo "You have successfully deleted an announcement!";
+					else if(isset($_SESSION['announcement_edited']))
+						echo "You have successfully edited an announcement!";
+				?>
+			</strong>
+		</div>
+	</div>
+<?php
+	}
+		unset($_SESSION['announcement_added']);
+		unset($_SESSION['announcement_deleted']);
+		unset($_SESSION['announcement_edited']);
+?>
+<!-- End of ALERTS PHP -->
+
 <!-- POST ANNOUNCEMENT -->
 <?php
 	
 	require_once "includes/connect.php";
 	require_once "includes/use_db.php";
-
-	//show if adding is successful
-	if(isset($_SESSION['announcement_added'])){
-		require_once 'js/announcement_added.js';
-		unset($_SESSION['announcement_added']);
-	}
-	//show if deleting is successful
-	else if(isset($_SESSION['announcement_deleted'])){
-		require_once 'js/announcement_deleted.js';
-		unset($_SESSION['announcement_deleted']);
-	}
-	//show if editing is successful
-	else if(isset($_SESSION['announcement_edited'])){
-		require_once 'js/announcement_edited.js';
-		unset($_SESSION['announcement_edited']);
-	}
-
 	//if post announcement button is clicked
 	if(isset($_POST['post_announcement'])){
 		require_once "includes/query.php";	
@@ -34,25 +44,26 @@
 		$announcement_content = $_POST['announcement_content'];
 		
 		//insert announcement into database
-		$new_announcement = "insert into announcement (announcement_author,author_id,announcement_title,announcement_content) 
+		$new_announcement = "insert into announcement (announcement_author,author_id,announcement_date,announcement_title,announcement_content) 
 						values(
 							'{$sid[0]['user_fname']}',
 							'{$sid[0]['user_id']}',
+							NULL,
 							'{$announcement_title}', 
 							'{$announcement_content}'
 						)";
 		$result1 = mysql_query($new_announcement, $con);
+		//set announcement_added to true for the alert
+		$_SESSION['announcement_added'] = true;
 					
 		if (!$result1) {
+			//set announcement_added to false for the alert
+			$_SESSION['announcement_added'] = false;
 			echo "Could not successfully run query {$new_announcement} from DB: " . mysql_error();
 			exit;
 		}
 	
-		unset($_POST);
-
-		//set announcement_added to true for the alert js
-		$_SESSION['announcement_added'] = true;
-
+		unset($_POST);	
 		//back to home page
 		header("Location: ?page=home");	
 		include "includes/close.php";
@@ -72,7 +83,11 @@
 	$user_id = $r[0]['user_id'];
 	$isEmpty = true;
 
-	if($user_type == 'Teacher' || $user_type == 'Administrator'){
+	if($user_type == 'Administrator'){
+		$announcements = performQuery('select * from announcement where author_id in (select admin_id from admin);');
+		$announceNum = mysql_query('select COUNT(announcement_id) from announcement where author_id in(select admin_id from admin);');
+	}
+	else if($user_type == 'Teacher'){
 		$user_school = performQuery("select * from teacher where teacher_id=".$user_id.";");
 
 		//select all announcements from database where author has the same school as the user or author is admin
@@ -86,8 +101,7 @@
 		//get announcement information
 		$announcements = performQuery("select * from announcement where author_id in (select admin_id from admin) or author_id in (select teacher_id from teacher where teacher_school_name='".$user_school[0]['student_school_name']."');");
 		$query = "select COUNT(announcement_id) from announcement where author_id in (select admin_id from admin) or author_id in (select teacher_id from teacher where teacher_school_name='".$user_school[0]['student_school_name']."');";
-		$announceNum = mysql_query($query);
-	}
+	}	
 		//if announcement is empty
  	while($row = mysql_fetch_array($announceNum)){
 		if($row['COUNT(announcement_id)'] > 0){
@@ -115,7 +129,7 @@
 					Announcement Title
 				</label>
 				<div class="controls">
-					<input type="text" id="announcement_title" name="announcement_title" placeholder="Title">
+					<input type="text" id="announcement_title" required="required" name="announcement_title" placeholder="Title">
 				</div>
 			</div>
 			<div class="control-group">
@@ -123,7 +137,7 @@
 					Body
 				</label>
 				<div class="controls">
-					<textarea placeholder="Announcement..." resizable="false" rows="10" name="announcement_content" id="announcement_content">
+					<textarea placeholder="Announcement..." required="required" resizable="false" rows="10" name="announcement_content" id="announcement_content">
 					</textarea>
 				</div>
 			</div>
@@ -145,7 +159,7 @@
 <!-- End of Post Announcement Modal -->
 
 <!-- Announcement part -->
-<div id='announcements' class="row-fluid span9">
+<div id='announcements' class="row-fluid span8">
 	<h2> Announcements </h2>
 	<div class="row-fluid">
 		<?php
@@ -188,10 +202,12 @@
 														?>
 														</div>
 														<div class="announcement_details">
-															posted by:
+															posted
 														<?php
 															$query = "select user_fname from user where user_id=".$announcements[$i]['author_id'].";";	
 															$fullname = performQuery($query);
+															echo $announcements[$i]['announcement_date'];
+															echo " by ";
 															echo $fullname[0]['user_fname'];
 														?>
 														</div>
@@ -256,35 +272,11 @@
 </div>
 <!-- End of announcement part -->
 
-<!-- Successful add modal -->
-<div id="announcement_added" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="announcement_added" aria-hidden="true">
-	<div class="modal-header">
-		<h3>You have successfully posted an announcement!</h3>
-	</div>
-	<div class="modal-footer">
-		<a href="#" class="btn btn-primary" onclick="okClicked();">Continue</a>
-	</div>
-</div>
-<!-- End of successful add modal -->
-
-<!-- Successful delete modal -->
-<div id="announcement_deleted" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="announcement_deleted" aria-hidden="true">
-	<div class="modal-header">
-		<h3>You have successfully deleted an announcement!</h3>
-	</div>
-	<div class="modal-footer">
-		<a href="#" class="btn btn-primary" onclick="okClicked();">Continue</a>
-	</div>
-</div>
-<!-- End of successful delete modal -->
-
-<!-- Successful edit modal -->
-<div id="announcement_edited" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="announcement_edited" aria-hidden="true">
-	<div class="modal-header">
-		<h3>You have successfully edited this announcement!</h3>
-	</div>
-	<div class="modal-footer">
-		<a href="#" class="btn btn-primary" onclick="okClicked();">Continue</a>
-	</div>
-</div>
-<!-- End of successful edit modal -->
+<script type='text/javascript'>
+	function enableTextBox(getid,getid2){
+		document.getElementById(getid).disabled = false;
+		document.getElementById(getid).required = "required";
+		document.getElementById(getid2).value = "";
+		document.getElementById(getid2).disabled = true;
+	}
+</script>

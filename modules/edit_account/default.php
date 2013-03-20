@@ -44,6 +44,7 @@
 							$_SESSION['success']=1;
 							$_SESSION['user'] = $uname;
 						}
+			$_SESSION['user'] = $uname;
 			}
 	}
 	$query = "select * from user where user_uname = '{$_SESSION['user']}'";	
@@ -70,7 +71,7 @@
 ?>
 <div id="edit_account">
 	<div class="row-fluid">
-		<div class="span4">
+		<div class="span9">
 
 			<?php if(isset($_SESSION['fail']) && $_SESSION['fail']==1){ ?>
 				<div class="alert alert-error">

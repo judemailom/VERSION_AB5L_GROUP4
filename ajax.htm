@@ -1,0 +1,26 @@
+<form method="POST" action="raven.php" onsubmit="return callIndex(this);">
+	<input type="text" name="name"/>
+	<input type="text" name="lastname"/>
+	<input type="submit"/>
+</form>
+
+<div></div>
+
+<script src="js/jquery.min.js"> </script>
+
+<script>
+	function callIndex(f){
+
+
+		$.post( $(f).attr("action"), $(f).serialize(),
+			function (data, textStatus, jqXHR){
+
+				console.log(jqXHR);
+
+				$('div').html(data);
+			}
+			console.log(textStatus);
+		);
+		return false;
+	}
+</script>

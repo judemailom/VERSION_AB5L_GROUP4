@@ -35,4 +35,40 @@ div#edit_account table#edit_account th{
 	font-size: 25px;
  	text-align: left;
 	
+}.close{
+	background-color: transparent;
+	border: 0px;
+	outline: 0px;
+	float: right;
+}
+#classtable{
+	padding-left: 1%;
+	padding-right: 1%;
+	border: 2px outset #ececec;
+	border-radius: 10px;
+}
+.createlink{
+	text-align: left;
+	font-family: comfortaa;
+	font-size: 19px;
+	font-weight: bold;
+	text-decoration: none;	
+	padding-left: 40px;
+	color: #515151;
+}
+#view_classlist{
+	margin-top: 30px;
+}
+.yeah{
+	width: 150px;
+}
+.searchtable{
+	border: 2px outset #ececec;
+	margin-left: 50px;
+	margin-right: 50px;
+	border-radius: 10px;
+	padding: 40px;
+}
+.ht{
+	height: 40px;
 }

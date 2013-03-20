@@ -33,9 +33,9 @@
 		$announcement_title = $_POST['announcement_title'];
 		$announcement_content = $_POST['announcement_content'];
 		
-		$new_announcement = "insert into announcement (announcement_author,author_id,announcement_title,announcement_content) 
+		$new_announcement = "insert into announcement 
 						values(
-							'{$sid[0]['user_fname']}',
+							'',
 							'{$sid[0]['user_id']}',
 							'{$announcement_title}', 
 							'{$announcement_content}'
@@ -56,15 +56,14 @@
 <!-- End of Post Announcement php -->
 
 <?php
-	require_once "includes/query.php";
 
 	$query =  'select * from user where user_uname = "'.$_SESSION['user'].'";';
 	$r = performQuery($query);
 	$user_type = $r[0]['user_type'];
 	$user_id = $r[0]['user_id'];
 	$user_school = performQuery("select * from teacher where teacher_id=".$user_id.";");
-	$announcements = performQuery('select * from announcement where author_id in (select teacher_id from teacher where Teacher_school="'.$user_school[0]['Teacher_school'].'");');
-	$announceNum = mysql_query('select COUNT(announcement_id) from announcement where author_id in (select teacher_id from teacher where Teacher_school="'.$user_school[0]['Teacher_school'].'");');
+	$announcements = performQuery('select * from announcement where author_id in (select teacher_id from teacher where Teacher_school_name="'.$user_school[0]['teacher_school_name'].'");');
+	$announceNum = mysql_query('select COUNT(announcement_id) from announcement where author_id in (select teacher_id from teacher where Teacher_school_name="'.$user_school[0]['teacher_school_name'].'");');
 	$isEmpty = true;
 	while($row = mysql_fetch_array($announceNum)){
 		if($row['COUNT(announcement_id)'] > 0){
@@ -122,17 +121,17 @@
 
 <div id='announcements' class="row-fluid">
 	<div class="row-fluid">
-			<div class="span10">
+			<div class="span9">
 				<div class="span3">
 					<a  href="#announcementModal"  role="button" class="createlink" data-toggle="modal">
-						<i class="icon-plus-sign"></i> Create Announcement
+						<i class="icon-plus-sign" id="createcolor"></i> Create Announcement
 					</a>
 				</div>
 			</div>
 			<div class="row-fluid">
 				<div class="span12">
 					<div class="row-fluid">
-						<div class="span10">
+						<div class="span9">
 							<div class="announcement">
 								<!-- Carousel -->
 								<div id="myCarousel" class="carousel slide">

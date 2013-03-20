@@ -6,10 +6,11 @@
 		$flagy = 0;
 		$query1 = "select classlist_user_id from classlist_members where classlist_id=(SELECT classlist_id from classlist where classlist_name='{$classlist}')";
 		$query2 = performQuery("select classlist_user_id from classlist_members where classlist_id=(SELECT classlist_id from classlist where classlist_name='{$classlist}')");
-		$result = mysql_query($query1, $con);
+		$result = mysql_query($query1);
 		echo "<form id=viewcl_members method=post action=''><table class='table table-striped' id=viewcl_members>";
 		if(mysql_num_rows($result)){
-			echo "<tr><th>{$classlist}</td></tr>";
+			echo "<tr><th>{$classlist}</td>";
+			if($_SESSION['user_type']=="Teacher" && !isset($_SESSION['view_classlist'])) echo "<th>Action</th></tr>";
 			$_SESSION['classlist']=$classlist;
 			$counter=1;
 			$counter2=0;
@@ -20,10 +21,13 @@
 					echo "<tr><td class=body align=left>";
 					echo $counter.'. ';
 					echo $viewmember[$i]['user_fname'];
-					if(isset($_SESSION['delete'])){
-						echo "<td><input type=submit name=delete[$counter2] value=Delete /></td>";
+					echo "</td>";
+					if(isset($_SESSION['edit_classlist'])){
+				
+						echo "<td><input type=submit name=delete[$counter2] class=btn value=Delete /></td></tr>";
+					
 					}
-					echo "</td></tr>";
+					
 					$counter++;
 					$counter2++;
 				}
@@ -33,5 +37,6 @@
 			echo "<tr><td>There are no members in the classlist.</td></tr>";
 		}
 
+		echo "</table></form>";
 	}
 ?>

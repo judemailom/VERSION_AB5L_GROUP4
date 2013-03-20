@@ -8,30 +8,27 @@
 	$author = performQuery('SELECT user_uname FROM user WHERE user_id = '.$test[0]['test_author_id'].';');
 
 ?>
-<?php 
-if(isset($_SESSION['success']) && $_SESSION['success']>=1){ ?>
-	<div class="alert alert-success">
-	  <button type="button" class="close" data-dismiss="alert">&times;</button>
-	  <strong>Congratulations!</strong> Successfully <?php echo $_SESSION['mode']; ?> a test.
-	</div>
-<?php
-}
-else if(isset($_SESSION['success']) && $_SESSION['success']<0){ ?>
-	<div class="alert alert-error">
-	  <button type="button" class="close" data-dismiss="alert">&times;</button>
-	  <strong>Sorry!</strong> Something went wrong. Please try again. 
-	</div>
-<?php }
-if(isset($_SESSION['success'])){
-	if(($_SESSION['success']==1 || $_SESSION['success']<0)){
-		unset($_SESSION['success']);
-		unset($_SESSION['mode']);
-	}
-	else
-		$_SESSION['success']-=1;
-}
-?>
-<div id="view_test">
+<div id="view_test" class="span9">
+
+	<?php 
+		if(isset($_SESSION['counter'])){
+			if( $_SESSION['counter']<2 && $_SESSION['counter']>=0){
+				if(isset($_SESSION['status']) && $_SESSION['item'] == 'test'){
+					$status=$_SESSION["status"];
+					$mode=$_SESSION["mode"];
+					$item=$_SESSION["item"];
+					include 'includes/alert.php';
+					unset($_SESSION['status']);
+					unset($_SESSION['item']);
+					unset($_SESSION['mode']);
+				}
+			}
+			else if($_SESSION['counter'] == 2)
+				$_SESSION['counter'] -=1;
+			else
+				unset($_SESSION['counter']);
+		}
+	?>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<h3><?php echo $test[0]['test_name']; ?></h3>

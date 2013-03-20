@@ -11,55 +11,60 @@
 			<h3>Create a test</h3>
 		</div>
 		<div class="row-fluid">
-			<form action="" method="post">
-				<div class="span6">
-					<label>Please fill in the following fields</label>
-					<div class="input-prepend">
-						<span class="add-on"><i class="icon-edit"></i></span>
-						<input required="required" class="input input-xxlarge" name="test_title" id="prependedInput" type="text" placeholder="Title of the test...">
+			<div class="span9">
+				<form action="" method="post">
+					<div class="span6">
+						<label>Please fill in the following fields</label>
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-edit"></i></span>
+							<input required="required" class="input input-xxlarge" name="test_title" id="prependedInput" type="text" placeholder="Title of the test...">
+						</div>
+						<div class="input-prepend">
+							<span class="add-on"><i class="icon-list"></i></span>
+							<input required="required" class="input input-xxlarge" name="test_description" id="prependedInput" type="text" placeholder="Some descriptions/details...">
+						</div><div class="input-prepend">
+							<span class="add-on"><i class="icon-tag"></i></span>
+							<input required="required" class="input input-xxlarge" name="test_key" id="prependedInput" type="text" placeholder="Test key...">
+						</div>
+						<label>
+							Deadline of the test: MM/DD/YYYY
+						</label>
+						<div class="row-fluid">
+								<input type="date" name="test_date_deadline" class="input-medium" />
+								<input type="time" name="test_time_deadline" class="input-small" />
+						</div>
+						<label>
+						Please check the classlists that are required for this test
+						</label>
+						<div class="row-fluid">
+							<div id="cl">
+								<?php 
+								$list = performQuery('select classlist_name from classlist where classlist_author_id = (select user_id from user where user_uname = "'.$_SESSION['user'].'");');
+								//var_dump($list);
+								if(!isset($list->num_rows)){
+									for($i=0;$i<sizeof($list);$i++){ ?>
+										<label class="checkbox"><input type="checkbox" value="<?php echo $list[$i]['classlist_name']; ?>" id="c_l<?php echo $i;?>" name="test_classlist<?php echo $i; ?>" /><?php echo $list[$i]['classlist_name']; ?></label>
+									<?php }
+								}
+								else
+									echo "You do not own any classlist.";
+								?>
+							</div>
+						</div>
+						<input type="submit" value="Start" name="next_step" />
 					</div>
-					<div class="input-prepend">
-						<span class="add-on"><i class="icon-list"></i></span>
-						<input required="required" class="input input-xxlarge" name="test_description" id="prependedInput" type="text" placeholder="Some descriptions/details...">
-					</div>
-					<label>
-						Deadline of the test: MM/DD/YYYY
-					</label>
-					<div class="row-fluid">
-							<input type="date" name="test_date_deadline" class="input-medium" />
-							<input type="time" name="test_time_deadline" class="input-small" />
-					</div>
-					<label>
-					Please check the classlists that are required for this test
-					</label>
-					<div class="row-fluid">
-						<div id="cl">
-							<?php 
-							$list = performQuery('select classlist_name from classlist where classlist_author_id = (select user_id from user where user_uname = "'.$_SESSION['user'].'");');
-							//var_dump($list);
-							if(!isset($list->num_rows)){
-								for($i=0;$i<sizeof($list);$i++){ ?>
-									<label class="checkbox"><input type="checkbox" value="<?php echo $list[$i]['classlist_name']; ?>" id="c_l<?php echo $i;?>" name="test_classlist<?php echo $i; ?>" /><?php echo $list[$i]['classlist_name']; ?></label>
-								<?php }
-							}
-							else
-								echo "You do not own any classlist.";
-							?>
+					<div class="span6">
+						<div class="well">
+							<h5>Some test reminders</h5>
+							<ul>
+								<li>Tests in iLearn are not editable</li>
+								<li>Questions and answers will be provided in the upcoming steps</li>
+								<li>Tests created are automatically labeled as UNFINISHED. Tests can only be categorized as FINISHED by the system on or after its due date.</li>
+							</ul>
 						</div>
 					</div>
-					<input type="submit" value="Start" name="next_step" />
-				</div>
-				<div class="span6">
-					<div class="well">
-						<h5>Some test reminders</h5>
-						<ul>
-							<li>Tests in iLearn are not editable</li>
-							<li>Questions and answers will be provided in the upcoming steps</li>
-							<li>Tests created are automatically labeled as UNFINISHED. Tests can only be categorized as FINISHED by the system on or after its due date.</li>
-						</ul>
-					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
 	<?php }
@@ -72,7 +77,7 @@
 			if(!isset($_SESSION['item']))	$_SESSION['item'] = 1;
 			else $_SESSION['item']+=1;
 		?>
-		<form action="" method="post">
+		<form action="" method="post" onsubmit="return confirm_test();">
 			<div class="container-fluid">
 				<div class="span6">
 					<label>
@@ -134,13 +139,16 @@
 			$_SESSION['QUESTIONS'] += $_POST;
 			//var_dump($_SESSION);
 			$author_id = performQuery('select user_id from user where user_uname = "'.$_SESSION['user'].'";');
-			$test_id = performQuery('CALL add_test("", "'.$_SESSION['QUESTIONS']['test_title'].'", '.$author_id[0]['user_id'].', '.$_SESSION['item'].', "UNFINISHED", "'.date('Y-m-d').'", "'.$_SESSION['QUESTIONS']['test_date_deadline'].' '.$_SESSION['QUESTIONS']['test_time_deadline'].'");');
+			$test_id = performQuery('CALL add_test("'.$_SESSION['QUESTIONS']['test_key'].'", "", "'.$_SESSION['QUESTIONS']['test_title'].'", '.$author_id[0]['user_id'].', '.$_SESSION['item'].', "UNFINISHED", "'.date('Y-m-d').'", "'.$_SESSION['QUESTIONS']['test_date_deadline'].' '.$_SESSION['QUESTIONS']['test_time_deadline'].'");');
+			//echo 'CALL add_test('.$_SESSION['QUESTIONS']['test_key'].', "", "'.$_SESSION['QUESTIONS']['test_title'].'", '.$author_id[0]['user_id'].', '.$_SESSION['item'].', "UNFINISHED", "'.date('Y-m-d').'", "'.$_SESSION['QUESTIONS']['test_date_deadline'].' '.$_SESSION['QUESTIONS']['test_time_deadline'].'");';
+			//var_dump($test_id);
 			$i=0;
 			 while(isset($_SESSION['QUESTIONS']['test_classlist'.$i])){
 				$a = performQuery( 'CALL add_test_classlist('.$test_id[0]['last_insert_id()'].', "'.$_SESSION['QUESTIONS']['test_classlist'.$i].'");');
 				//var_dump($a);
 				$i++;
 			}
+			//var_dump($a);
 			$i=1;
 			while(isset($_SESSION['QUESTIONS']['Q'.$i])){
 				$question_id = performQuery('CALL add_question("", '.$test_id[0]['last_insert_id()'].', "'.$_SESSION['QUESTIONS']['Q'.$i].'","'.$_SESSION['QUESTIONS']['Q'.$i.'_choice_A'].'", "'.$_SESSION['QUESTIONS']['Q'.$i.'_choice_B'].'", "'.$_SESSION['QUESTIONS']['Q'.$i.'_choice_C'].'", "'.$_SESSION['QUESTIONS']['Q'.$i.'_choice_D'].'", "'.$_SESSION['QUESTIONS']['Q'.$i.'_correct_answer'].'", '.$i.');');
@@ -150,6 +158,18 @@
 			}
 			if($b){
 				$_SESSION['test_id'] = $test_id[0]['last_insert_id()'];
+				$_SESSION['counter'] = 2;
+				$_SESSION['status']='success';
+				$_SESSION['mode']='created';
+				$_SESSION['item']='test';
+			}
+			else
+				$_SESSION['success']=0;
+
+			//var_dump($b);
+			/*
+			if($b){
+				$_SESSION['test_id'] = $test_id[0]['last_insert_id()'];
 				//clear all uneccessary session values
 				unset($_SESSION['item']);
 				unset($_SESSION['QUESTIONS']);
@@ -157,7 +177,7 @@
 				$_SESSION['mode'] = 'created';
 			}
 			else
-				$_SESSION['success']=0;
+				$_SESSION['success']=0;*/
 			header('location: ?page=view_test&&test_id='.$test_id[0]['last_insert_id()'].'');
 			
 		}
@@ -175,3 +195,8 @@
 		<a href="?page=add_test" class="btn btn-primary" onclick="okClicked();">Create another test</a>
 	</div>
 </div>
+<script>
+	function confirm_test(){
+		return confirm('Are you sure you want to proceed to the next step?');
+	}
+</script>
